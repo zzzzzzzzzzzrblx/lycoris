@@ -6215,6 +6215,37 @@ InputClient.amantra = LPH_NO_VIRTUALIZE(function(tool)
 	activateMantraRemote:FireServer(tool)
 end)
 
+---Crouch function.
+---@param state boolean
+InputClient.crouch = LPH_NO_VIRTUALIZE(function(state)
+	local character = players.LocalPlayer.Character
+	if not character then
+		return Logger.warn("Cannot crouch without character.")
+	end
+
+	local humanoidRootPart = character:FindFirstChild("HumanoidRootPart")
+	if not humanoidRootPart then
+		return Logger.warn("Cannot crouch without humanoid root part.")
+	end
+
+	local characterHandler = character:FindFirstChild("CharacterHandler")
+	if not characterHandler then
+		return Logger.warn("Cannot crouch without character handler.")
+	end
+
+	local requests = characterHandler:FindFirstChild("Requests")
+	if not requests then
+		return Logger.warn("Cannot crouch without requests.")
+	end
+
+	local crouchRemote = requests:FindFirstChild("ServerCrouch")
+	if not crouchRemote then
+		return Logger.warn("Cannot crouch without crouch remote.")
+	end
+
+	crouchRemote:FireServer(state)
+end)
+
 ---Vent function.
 InputClient.vent = LPH_NO_VIRTUALIZE(function()
 	local character = players.LocalPlayer.Character
@@ -19278,10 +19309,10 @@ function ModuleManager.refresh()
 	end
 
 	-- Load all globals in our filesystem.
-
+	ModuleManager.load(gfs, true)
 
 	-- Load all modules in our filesystem.
-
+	ModuleManager.load(fs, false)
 end
 
 -- Return ModuleManager module.
@@ -21180,7 +21211,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\019\027\029\029\019\031\018\026\026\019\028\019\028"] = {
@@ -21221,7 +21252,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\031\019\029\024\018\019\031\027\018"] = {
@@ -21247,14 +21278,14 @@ function SaveManager.init()
 	    	            rsd = 0,
 	    	            umoa = true,
 	    	            smod = "}OKZEDlFE_XCYB~OY^",
-	    	            bfht = 0.3,
-	    	            pfh = true,
+	    	            bfht = 0.6,
+	    	            pfh = false,
 	    	            after = 0,
 	    	            imb = false,
-	    	            dp = false,
-	    	            phd = false,
-	    	            phds = 0.6,
-	    	            pfht = 0.5,
+	    	            dp = true,
+	    	            phd = true,
+	    	            phds = 0.2500000298023224,
+	    	            pfht = 0.2500000298023224,
 	    	            aatk = false,
 	    	            nvfb = true,
 	    	            smn = false,
@@ -21262,7 +21293,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\030\026\018\030\029\018\027\030\028"] = {
@@ -21303,7 +21334,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\029\029\024\026\025\028\025\031\031"] = {
@@ -21356,7 +21387,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\028\029\025\028\026\029\031\029"] = {
@@ -21409,7 +21440,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\018\028\027\025\031\018\024\030\024\026\028\019\018"] = {
@@ -21462,7 +21493,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\018\025\024\029\024\029\019\026\031"] = {
@@ -21515,12 +21546,12 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.58333333333333,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\030\031\029\031\031\030\019\026\018\031\018\019\029"] = {
 	    	            rpd = 0,
-	    	            hso = 0,
+	    	            hso = 10,
 	    	            ieae = false,
 	    	            actions = {
 	    	                {
@@ -21558,12 +21589,12 @@ function SaveManager.init()
 	    	                Y = -68.58333333333333,
 	    	                Z = -68.58333333333333
 	    	            },
-	    	            fhb = false,
+	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            duih = false,
 	    	            rsd = 0,
-	    	            umoa = false,
-	    	            smod = "d\005k",
+	    	            umoa = true,
+	    	            smod = "lXKI^CDO",
 	    	            bfht = 0.3,
 	    	            pfh = false,
 	    	            after = 0,
@@ -21579,7 +21610,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = true,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\030\030\027\028\018\030\027\019\027"] = {
@@ -21654,7 +21685,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\019\024\018\030\024\019\025\018\031"] = {
@@ -21695,7 +21726,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\018\027\030\029\024\024\031\024"] = {
@@ -21748,7 +21779,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\019\029\027\030\031\029\029\030\024\028\025\027"] = {
@@ -21801,7 +21832,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -16.5,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\018\029\029\031\025\031\026\028\027\019\027\024\029"] = {
@@ -21854,7 +21885,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\031\030\025\031\031\018\026\030\028"] = {
@@ -21907,7 +21938,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -52.5,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\029\027\026\030\027\029\028\027\031"] = {
@@ -21960,7 +21991,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -50.66666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\031\024\029\031\026\028\019\029\027"] = {
@@ -22001,7 +22032,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -52.5,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\027\024\026\029\019\025\030\018\019\031\025\030\024"] = {
@@ -22054,7 +22085,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\024\025\018\027\027\027\024\025\019\026\028\030\018"] = {
@@ -22095,7 +22126,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\031\030\030\027\019\024\029\018\024"] = {
@@ -22148,7 +22179,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\031\029\028\028\027\030\028\026\019"] = {
@@ -22189,7 +22220,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\030\025\025\018\024\031\024\024\030"] = {
@@ -22242,7 +22273,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\027\026\018\024\029\031\024\019\019"] = {
@@ -22295,7 +22326,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\026\026\024\024\030\027\028\019"] = {
@@ -22340,7 +22371,7 @@ function SaveManager.init()
 	    	            dp = false,
 	    	            phd = false,
 	    	            phds = 0.6,
-	    	            pfht = 0.5000000596046448,
+	    	            pfht = 0.5,
 	    	            aatk = false,
 	    	            nvfb = true,
 	    	            smn = false,
@@ -22348,7 +22379,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\028\018\018\031\019\027\029\019\027\025\027\028"] = {
@@ -22423,7 +22454,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.916666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\031\029\024\030\028\018\030\028\024"] = {
@@ -22476,7 +22507,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\025\029\031\026\018\028\030\026\025"] = {
@@ -22540,7 +22571,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\030\025\029\019\028\024\030\019\018"] = {
@@ -22581,7 +22612,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\024\027\024\018\018\025\031\024\030"] = {
@@ -22634,7 +22665,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\027\018\026\030\028\029\019\026"] = {
@@ -22687,7 +22718,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\031\025\028\028\024\029\025\028"] = {
@@ -22740,7 +22771,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -52.5,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\029\031\025\019\018\030\024\026\031\018\029\019\031"] = {
@@ -22793,7 +22824,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -55.583333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\019\025\019\030\018\029\027\029\024"] = {
@@ -22846,7 +22877,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\027\031\029\028\018\019\024\024\028\025\029\029\029"] = {
@@ -22887,7 +22918,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\019\018\030\019\024\031\025\029"] = {
@@ -22940,7 +22971,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\018\019\018\027\028\030\031\031\028\026\026\026"] = {
@@ -22993,7 +23024,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\028\027\018\030\024\031\026\028\026\019\019\024\028"] = {
@@ -23021,9 +23052,9 @@ function SaveManager.init()
 	    	            punishable = 0,
 	    	            name = "cXED{_CFFY",
 	    	            hitbox = {
-	    	                X = -67.24999984105428,
-	    	                Y = -67.24999984105428,
-	    	                Z = -67.24999984105428
+	    	                X = -66.91666666666667,
+	    	                Y = -66.91666666666667,
+	    	                Z = -66.91666666666667
 	    	            },
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
@@ -23046,7 +23077,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -62.75,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\024\031\026\027\024\031\025\019\030"] = {
@@ -23099,7 +23130,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\019\031\025\028\018\029\024\019\030"] = {
@@ -23140,7 +23171,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -56.083333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\031\030\024\031\026\024\018\018\027"] = {
@@ -23193,7 +23224,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\031\025\024\031\019\025\028\031\030\030\025\029"] = {
@@ -23246,7 +23277,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -49.75,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\028\024\027\018\029\029\026\030\028"] = {
@@ -23287,7 +23318,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -54.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\024\027\019\019\026\024\019\018\024"] = {
@@ -23340,7 +23371,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -54.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\019\019\018\030\026\025\018\030\024\031\029\030\026"] = {
@@ -23393,7 +23424,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\026\019\031\030\029\027\030\019\028"] = {
@@ -23457,7 +23488,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\030\028\018\026\019\030\026\031"] = {
@@ -23510,7 +23541,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\027\027\029\018\029\019\031\027\030"] = {
@@ -23563,7 +23594,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\025\029\028\028\031\029\025\030"] = {
@@ -23604,7 +23635,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\030\018\027\024\018\024\026\031\024"] = {
@@ -23657,7 +23688,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -54.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\019\025\026\030\030\029\019\031\018"] = {
@@ -23698,7 +23729,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\027\024\026\027\026\027\026\018\027"] = {
@@ -23751,7 +23782,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\029\029\030\027\025\019\018\026\029"] = {
@@ -23804,7 +23835,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\029\026\025\019\026\026\027\018\027\025\031\024\024"] = {
@@ -23857,7 +23888,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\031\026\018\030\019\029\028\029\025\026\031\026\025"] = {
@@ -23898,7 +23929,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\019\031\026\026\018\026\028\028\024"] = {
@@ -23939,7 +23970,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\025\025\027\026\026\030\026\031\029\027\026\029\024"] = {
@@ -23992,7 +24023,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\018\028\027\027\025\031\018\027\029"] = {
@@ -24045,7 +24076,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\026\029\027\030\019\031\029\031\027"] = {
@@ -24098,7 +24129,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -61.0,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\029\027\026\024\019\026\031\026\025"] = {
@@ -24151,7 +24182,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\026\028\031\026\019\030\024\029\019"] = {
@@ -24192,7 +24223,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\025\029\024\030\024\029\029\031\028"] = {
@@ -24245,7 +24276,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\019\025\024\030\027\031\029\029\026\027\027\019"] = {
@@ -24298,7 +24329,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -50.66666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\030\028\027\028\029\031\019\028\029\019\025\031\029"] = {
@@ -24351,7 +24382,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\029\026\018\031\028\029\018\031\018\027\030\018\025"] = {
@@ -24404,7 +24435,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\028\025\028\031\024\026\019\028\026"] = {
@@ -24445,7 +24476,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\028\026\029\031\027\019\024\019\030"] = {
@@ -24490,7 +24521,7 @@ function SaveManager.init()
 	    	            dp = false,
 	    	            phd = false,
 	    	            phds = 0.6,
-	    	            pfht = 0.5,
+	    	            pfht = 0.5000000596046448,
 	    	            aatk = false,
 	    	            nvfb = true,
 	    	            smn = false,
@@ -24498,7 +24529,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\025\029\018\024\028\025\031\030\025"] = {
@@ -24562,7 +24593,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\028\019\030\027\018\018\019\029"] = {
@@ -24615,7 +24646,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\019\019\026\029\029\031\031\018"] = {
@@ -24668,7 +24699,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\019\030\024\026\026\024\027\027\031"] = {
@@ -24732,7 +24763,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\031\030\030\024\026\025\018\019\031"] = {
@@ -24785,7 +24816,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -58.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\030\027\026\018\028\029\026\025\018\025\026\024\028"] = {
@@ -24838,7 +24869,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\030\018\027\025\026\026\025\028\019"] = {
@@ -24891,7 +24922,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\024\029\027\028\031\019\019\027\029"] = {
@@ -24944,7 +24975,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\019\031\030\027\025\026\027\029\029"] = {
@@ -24997,7 +25028,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\030\026\027\026\026\027\026\019\031\031\031\026\030"] = {
@@ -25050,7 +25081,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.5,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\029\028\019\025\030\025\030\027\028"] = {
@@ -25114,7 +25145,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\031\024\028\018\030\025\029\028\029"] = {
@@ -25178,7 +25209,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\024\025\028\028\027\024\024\027\028"] = {
@@ -25231,7 +25262,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\026\030\025\024\029\027\018\031"] = {
@@ -25284,7 +25315,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\028\029\027\030\028\027\029\019"] = {
@@ -25337,7 +25368,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\019\030\030\018\026\031\027\018\028\027\025\030\031"] = {
@@ -25390,7 +25421,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.916666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\025\026\031\028\029\031\019\025\024\024\031\027\030"] = {
@@ -25454,7 +25485,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\026\031\030\019\024\026\024\026\029"] = {
@@ -25507,7 +25538,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\018\018\025\026\027\024\028\019\026"] = {
@@ -25560,7 +25591,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -42.58333333333333,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\024\024\031\026\019\018\031\030\030"] = {
@@ -25601,7 +25632,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\019\024\018\030\018\031\028\030\027"] = {
@@ -25642,7 +25673,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\029\029\018\018\029\031\029\026"] = {
@@ -25695,7 +25726,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\026\025\030\030\018\024\030\018"] = {
@@ -25748,7 +25779,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\019\026\025\026\019\029\024\027\027"] = {
@@ -25801,7 +25832,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.083333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\029\031\030\028\024\029\031\031\025\031\027\031\024"] = {
@@ -25854,7 +25885,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\018\030\024\030\028\030\031\025\025\024\031\018"] = {
@@ -25907,7 +25938,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\031\029\028\029\030\018\029\024\018"] = {
@@ -25948,7 +25979,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\030\030\031\030\025\030\019\024\029\027\030\025\026"] = {
@@ -26001,7 +26032,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\019\028\027\025\025\027\024\029\031"] = {
@@ -26054,7 +26085,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\027\018\028\028\031\030\019\025\027"] = {
@@ -26107,7 +26138,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\031\031\024\025\028\031\029\027\029\018\030\026\027"] = {
@@ -26148,7 +26179,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\026\028\030\027\019\031\019\019\024"] = {
@@ -26201,7 +26232,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\027\028\030\025\018\025\024\029\031\026\028\026"] = {
@@ -26242,7 +26273,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\031\029\029\025\024\025\019\026\018"] = {
@@ -26295,7 +26326,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -54.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\027\019\019\031\028\030\029\027\026\029\024\030"] = {
@@ -26336,7 +26367,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.916666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\025\027\026\019\026\019\018\024\031"] = {
@@ -26389,7 +26420,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\029\028\018\029\030\018\031\018\030"] = {
@@ -26442,7 +26473,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\030\018\027\024\018\028\025\031\030"] = {
@@ -26495,7 +26526,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\018\019\019\018\029\031\030\030\027"] = {
@@ -26548,7 +26579,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\027\026\030\029\018\026\031\025\029"] = {
@@ -26601,7 +26632,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\019\024\028\025\026\027\025\026\027"] = {
@@ -26676,7 +26707,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\028\031\030\027\027\025\025\031\029"] = {
@@ -26729,7 +26760,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\027\018\031\024\024\031\025\029\031\019\028\029"] = {
@@ -26782,7 +26813,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\024\026\028\025\025\024\025\027"] = {
@@ -26835,7 +26866,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\030\025\031\029\029\025\029\025\019"] = {
@@ -26876,7 +26907,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\025\024\024\031\031\019\030\030\025"] = {
@@ -26929,7 +26960,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\025\028\029\018\027\018\024\026\018"] = {
@@ -26982,7 +27013,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = true,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\029\019\026\029\025\029\030\026\029\025\030\030\025"] = {
@@ -27035,7 +27066,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\026\026\030\031\026\029\025\019"] = {
@@ -27076,7 +27107,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\027\019\029\029\026\030\027\025\026"] = {
@@ -27129,7 +27160,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\028\027\026\025\025\027\019\026"] = {
@@ -27182,7 +27213,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -52.5,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\028\028\031\028\026\024\031\031\030"] = {
@@ -27235,7 +27266,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\019\028\025\026\024\027\030\018\027"] = {
@@ -27288,7 +27319,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\027\030\031\030\029\019\019\018"] = {
@@ -27341,7 +27372,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\028\031\019\018\026\029\026\025"] = {
@@ -27394,7 +27425,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\027\025\025\018\024\027\028\025\027"] = {
@@ -27435,7 +27466,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -58.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\029\018\028\031\024\031\028\028\027"] = {
@@ -27476,7 +27507,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -63.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\019\027\019\019\018\028\028\027\030"] = {
@@ -27540,7 +27571,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\026\031\028\028\027\031\028\027\019\027\024\027\018"] = {
@@ -27593,7 +27624,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\018\027\019\026\031\018\019\027"] = {
@@ -27646,7 +27677,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\025\030\031\031\027\018\018\026"] = {
@@ -27699,7 +27730,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\031\030\030\024\026\028\018\019\025"] = {
@@ -27763,7 +27794,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\029\027\026\031\025\018\025\025\030"] = {
@@ -27816,7 +27847,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\029\029\029\027\028\027\027\018\018\027\018\029\031"] = {
@@ -27869,7 +27900,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\029\019\029\018\024\027\027\019\019\030\026\029\027"] = {
@@ -27922,7 +27953,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\027\024\027\029\025\025\019\031\027"] = {
@@ -27986,7 +28017,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\024\024\031\026\018\028\025\025\024"] = {
@@ -28027,7 +28058,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\028\031\027\025\028\031\029\019\027\025\024\018\026"] = {
@@ -28080,7 +28111,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\031\018\019\030\026\018\029\029\031\019\019\027"] = {
@@ -28121,7 +28152,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -45.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\028\031\030\026\019\019\019\025\029"] = {
@@ -28174,7 +28205,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\028\030\025\018\031\024\018\030\025"] = {
@@ -28227,7 +28258,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\018\027\025\019\018\030\030\019"] = {
@@ -28268,7 +28299,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -53.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\031\027\027\019\026\026\019\024\019\031\024\018\018"] = {
@@ -28321,7 +28352,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\025\028\025\031\019\019\018\025\031"] = {
@@ -28362,7 +28393,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\019\024\024\027\026\025\029\026\029"] = {
@@ -28415,7 +28446,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\024\031\027\019\030\028\027\030\025\029\019\029"] = {
@@ -28468,7 +28499,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\029\026\029\019\026\031\018\019\031"] = {
@@ -28521,7 +28552,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\030\019\025\019\024\026\030\027\018"] = {
@@ -28574,7 +28605,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\029\019\019\028\031\031\026\028\024"] = {
@@ -28612,7 +28643,7 @@ function SaveManager.init()
 	    	            rsd = 0,
 	    	            umoa = false,
 	    	            smod = "d\005k",
-	    	            bfht = 0.3,
+	    	            bfht = 0.5000000596046448,
 	    	            pfh = false,
 	    	            after = 0,
 	    	            imb = false,
@@ -28627,7 +28658,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\026\026\027\028\026\019\027\019"] = {
@@ -28672,7 +28703,7 @@ function SaveManager.init()
 	    	            dp = false,
 	    	            phd = false,
 	    	            phds = 0.6,
-	    	            pfht = 0.5000000596046448,
+	    	            pfht = 0.5,
 	    	            aatk = false,
 	    	            nvfb = true,
 	    	            smn = false,
@@ -28680,7 +28711,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\030\019\025\019\024\030\031\018\018"] = {
@@ -28733,7 +28764,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.75,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\027\018\028\028\031\024\028\031\018"] = {
@@ -28786,7 +28817,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\026\027\028\030\018\026\028\027\027\027\019\031\028"] = {
@@ -28839,7 +28870,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\025\024\028\026\019\031\029\018\027\024\031\028\018"] = {
@@ -28892,7 +28923,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\024\024\024\029\018\019\028\018"] = {
@@ -28978,7 +29009,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\031\018\026\029\030\028\029\028\029\018\018\019\025"] = {
@@ -29031,7 +29062,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\030\027\019\030\029\025\027\028"] = {
@@ -29106,7 +29137,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -52.5,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\031\031\026\019\028\026\028\025\019"] = {
@@ -29159,7 +29190,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\029\030\024\029\030\029\031\019\028"] = {
@@ -29200,7 +29231,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\027\024\027\027\028\024\030\028"] = {
@@ -29253,7 +29284,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\030\025\018\027\029\031\030\029\019"] = {
@@ -29317,7 +29348,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\018\029\025\019\018\018\029\025\024"] = {
@@ -29370,7 +29401,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\030\019\019\025\028\030\024\019\028\028\025\030"] = {
@@ -29423,7 +29454,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\026\026\018\019\028\026\030\026"] = {
@@ -29476,7 +29507,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\024\029\018\031\030\024\029\024"] = {
@@ -29517,7 +29548,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\025\027\019\018\030\029\018\027\031"] = {
@@ -29570,7 +29601,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\026\028\025\027\018\018\024\027\018"] = {
@@ -29611,7 +29642,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\018\027\019\026\018\019\026\019"] = {
@@ -29652,7 +29683,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -50.66666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\029\031\027\030\029\018\030\027\031\028\025\030"] = {
@@ -29705,7 +29736,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\025\018\018\024\028\024\024\028\019\024\025\025"] = {
@@ -29769,7 +29800,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\025\031\028\018\019\024\019\025\025"] = {
@@ -29822,7 +29853,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\029\026\028\031\029\030\030\030\027"] = {
@@ -29875,7 +29906,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.083333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\028\028\031\028\024\030\030\027\029"] = {
@@ -29928,7 +29959,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\018\024\026\028\024\029\024\018\025\030\027\026\031"] = {
@@ -29981,7 +30012,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -32.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\031\019\019\027\029\031\029\027\028"] = {
@@ -30034,7 +30065,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\027\019\026\027\018\031\024\024"] = {
@@ -30087,7 +30118,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\026\031\025\024\019\031\030\024\025"] = {
@@ -30140,7 +30171,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\026\027\025\028\019\026\029\019\029\025\028\019\024"] = {
@@ -30259,7 +30290,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.916666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\029\019\019\028\027\030\024\025\030"] = {
@@ -30297,7 +30328,7 @@ function SaveManager.init()
 	    	            rsd = 0,
 	    	            umoa = false,
 	    	            smod = "d\005k",
-	    	            bfht = 0.3,
+	    	            bfht = 0.5000000596046448,
 	    	            pfh = false,
 	    	            after = 0,
 	    	            imb = false,
@@ -30312,7 +30343,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\029\027\025\019\027\030\027\030\024"] = {
@@ -30376,7 +30407,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\024\018\031\027\030\018\031\026"] = {
@@ -30429,7 +30460,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\030\024\018\029\018\031\030\025\019"] = {
@@ -30482,7 +30513,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\019\028\029\025\019\024\018\018\027"] = {
@@ -30535,7 +30566,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = 1.4166666666666714,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\030\018\027\024\019\025\018\030\024"] = {
@@ -30588,7 +30619,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\024\028\029\029\027\019\027\031"] = {
@@ -30641,7 +30672,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\027\018\027\019\030\030\030\029\026"] = {
@@ -30694,7 +30725,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -56.916666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\019\031\027\030\031\031\028\031"] = {
@@ -30735,7 +30766,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\029\024\018\019\031\026\029\031\030"] = {
@@ -30810,7 +30841,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\029\019\030\024\028\018\025\031\018"] = {
@@ -30863,7 +30894,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\018\025\031\029\028\031\025\026\025\031\029\024\026"] = {
@@ -30916,7 +30947,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\028\019\031\025\019\027\027\025\019"] = {
@@ -30969,7 +31000,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\018\027\025\019\031\018\031\031"] = {
@@ -31010,7 +31041,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -53.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\027\029\026\024\028\029\019\018\025\030\024\027"] = {
@@ -31051,7 +31082,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\025\031\026\029\029\026\030\025\027"] = {
@@ -31092,7 +31123,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = true,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\025\025\027\030\031\024\018\030\029"] = {
@@ -31233,7 +31264,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\019\028\029\025\019\029\018\030\024"] = {
@@ -31286,7 +31317,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -49.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\029\025\019\027\026\024\030\031\026"] = {
@@ -31339,7 +31370,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\027\019\029\029\025\024\027\029\030"] = {
@@ -31392,7 +31423,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\018\025\024\018\030\024\029\019\030"] = {
@@ -31445,7 +31476,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\027\024\027\030\028\026\027\026"] = {
@@ -31498,7 +31529,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\026\029\019\029\030\019\027\030"] = {
@@ -31573,7 +31604,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\024\024\019\024\024\025\028\024\019"] = {
@@ -31626,7 +31657,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\027\019\019\025\027\026\026\018\027"] = {
@@ -31679,7 +31710,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\030\030\031\030\019\024\018\029\024"] = {
@@ -31743,7 +31774,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\031\024\024\028\027\030\024\024\029\019\024\024\024"] = {
@@ -31796,7 +31827,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\026\031\024\024\030\026\024\031\024"] = {
@@ -31849,7 +31880,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\019\029\028\028\030\026\025\027\024"] = {
@@ -31902,7 +31933,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\029\018\029\024\027\025\031\018\025"] = {
@@ -31914,9 +31945,9 @@ function SaveManager.init()
 	    	                    _type = "zKXXS",
 	    	                    name = "\027",
 	    	                    hitbox = {
-	    	                        X = -66.0,
+	    	                        X = -63.583333333333336,
 	    	                        Y = -64.41666666666667,
-	    	                        Z = -66.0
+	    	                        Z = -63.583333333333336
 	    	                    },
 	    	                    when = -6.083333333333336,
 	    	                    ihbc = false
@@ -31955,7 +31986,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\029\030\024\019\027\025\028\028\027"] = {
@@ -32008,7 +32039,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\031\025\028\031\018\026\027\028\031"] = {
@@ -32061,7 +32092,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\019\028\029\025\018\019\026\028\029"] = {
@@ -32125,7 +32156,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -41.66666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\030\030\019\028\027\025\030\024\019"] = {
@@ -32178,7 +32209,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -54.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\018\028\029\027\029\031\028\024\018"] = {
@@ -32231,7 +32262,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\019\028\018\026\018\018\027\026\027"] = {
@@ -32284,7 +32315,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -66.83333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\026\028\025\025\027\025\028\031\028"] = {
@@ -32325,7 +32356,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\031\029\030\028\019\024\018\024"] = {
@@ -32378,7 +32409,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\028\029\026\027\027\029\019\029\026\019\024\018\028"] = {
@@ -32442,7 +32473,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\031\019\019\027\027\025\031\028\029"] = {
@@ -32483,7 +32514,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\018\028\028\030\031\024\029\026\027"] = {
@@ -32536,7 +32567,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\027\018\029\031\030\031\018\025"] = {
@@ -32589,7 +32620,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\029\024\018\018\028\024\029\025\031"] = {
@@ -32642,7 +32673,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\030\025\031\029\028\028\031\019\027"] = {
@@ -32683,7 +32714,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\029\028\027\030\018\026\029\026"] = {
@@ -32736,7 +32767,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = 14.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\031\029\031\029\029\019\028\019\018\019\028\026\029"] = {
@@ -32789,7 +32820,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\030\026\031\028\019\024\031\026\024\027\029\027"] = {
@@ -32842,7 +32873,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\026\025\025\030\024\030\031\026"] = {
@@ -32906,7 +32937,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\024\024\024\019\028\028\029\031"] = {
@@ -32959,7 +32990,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\030\029\029\025\031\027\025\029\026\026\028\031\026"] = {
@@ -33012,7 +33043,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\031\024\018\019\026\024\026\026\027\018\030\025\026"] = {
@@ -33065,7 +33096,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\027\024\027\028\027\027\026\028\026"] = {
@@ -33140,7 +33171,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\027\026\018\024\031\018\028\026\028"] = {
@@ -33193,7 +33224,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\019\024\024\027\030\018\031\028\028\030\025\024\028"] = {
@@ -33246,7 +33277,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\025\028\031\027\019\019\027\031\028"] = {
@@ -33287,7 +33318,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\029\018\028\031\027\030\028\028\027"] = {
@@ -33328,7 +33359,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -60.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\025\028\028\026\019\025\027\026\025"] = {
@@ -33381,7 +33412,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\028\027\026\030\025\025\028\018"] = {
@@ -33422,7 +33453,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\029\024\028\028\026\018\027\029\030"] = {
@@ -33475,7 +33506,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -56.916666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\025\027\024\025\026\024\026\026\031"] = {
@@ -33528,7 +33559,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\018\018\027\018\024\026\026\019\025"] = {
@@ -33592,7 +33623,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\030\019\025\019\024\025\024\029\029"] = {
@@ -33645,7 +33676,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\031\025\027\019\025\031\026\019\026"] = {
@@ -33698,7 +33729,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\018\028\027\030\024\019\031\030\031\024\030\031\029"] = {
@@ -33751,7 +33782,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\031\018\019\027\029\031\026\030\027"] = {
@@ -33804,7 +33835,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\029\026\018\031\029\028\019\026"] = {
@@ -33857,7 +33888,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\024\029\025\029\024\025\026\030"] = {
@@ -33910,7 +33941,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\030\019\028\027\018\030\031\027\028\024\028\031\026"] = {
@@ -33963,7 +33994,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\025\018\026\025\028\030\025\028\024\018\025\030\029"] = {
@@ -34016,7 +34047,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\025\029\018\027\024\030\019\028\019"] = {
@@ -34069,7 +34100,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\028\025\029\019\025\024\024\025\031"] = {
@@ -34110,7 +34141,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\018\028\031\025\019\019\018\031\027\018\026\028"] = {
@@ -34163,7 +34194,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -43.5,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\025\019\027\030\030\028\028\030\031"] = {
@@ -34204,7 +34235,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = true,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\024\026\018\028\026\027\027\027\024"] = {
@@ -34257,7 +34288,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\024\029\018\018\019\026\029\030"] = {
@@ -34298,7 +34329,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\024\019\028\019\031\029\031\027"] = {
@@ -34351,7 +34382,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.75,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\031\030\018\031\018\019\027\024\029\019\024\031\018"] = {
@@ -34404,7 +34435,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\029\031\019\027\018\018\018\026\027\025\027\019\025"] = {
@@ -34457,7 +34488,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\025\027\018\024\029\025\027\030\025"] = {
@@ -34510,7 +34541,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\030\028\019\019\025\031\018\027\027\024"] = {
@@ -34551,7 +34582,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\027\018\027\026\024\019\031\019\031"] = {
@@ -34626,7 +34657,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\026\029\027\019\030\024\025\028\019"] = {
@@ -34679,7 +34710,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.666666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\028\029\031\029\026\025\024\030\019"] = {
@@ -34732,7 +34763,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\026\029\030\030\029\019\029\026\031"] = {
@@ -34796,7 +34827,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\018\025\026\019\030\028\024\024\019"] = {
@@ -34849,7 +34880,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\029\031\029\026\018\018\031\028\028\024\025\019\019"] = {
@@ -34902,7 +34933,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\031\019\024\026\031\026\018\030\030"] = {
@@ -34955,7 +34986,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\025\024\019\024\026\030\031\024"] = {
@@ -34996,7 +35027,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\025\028\025\027\018\031\026\025\025"] = {
@@ -35049,7 +35080,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\027\028\018\028\028\025\027\027\027"] = {
@@ -35102,7 +35133,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\026\027\019\026\019\019\018\024\024\031\031\018\018"] = {
@@ -35155,7 +35186,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\019\030\024\027\025\031\024\019"] = {
@@ -35196,7 +35227,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\027\028\030\026\029\019\028\029"] = {
@@ -35237,7 +35268,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\025\026\018\019\028\019\018\018\031"] = {
@@ -35297,11 +35328,11 @@ function SaveManager.init()
 	    	            aatk = false,
 	    	            nvfb = false,
 	    	            smn = false,
-	    	            ha = false,
+	    	            ha = true,
 	    	            iae = true,
 	    	            imxd = -63.666666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = true,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\024\025\028\019\026\028\027\029\030\019\026\018\019"] = {
@@ -35354,7 +35385,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\019\026\018\024\024\026\019\027"] = {
@@ -35407,7 +35438,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\025\029\019\027\019\018\031\029\018\030\018\028\029"] = {
@@ -35460,7 +35491,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.916666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\031\030\030\024\026\031\028\025\030"] = {
@@ -35513,7 +35544,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -52.5,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\031\025\028\028\018\018\031\018\031"] = {
@@ -35566,7 +35597,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -53.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\018\030\018\031\018\025\027\025\028\025\027\031\029"] = {
@@ -35619,7 +35650,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\019\024\024\026\030\024\029\028\019"] = {
@@ -35672,7 +35703,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\030\029\024\018\019\025\030\019\019"] = {
@@ -35725,7 +35756,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\030\025\019\028\019\019\018\018\019\031\028\019\026"] = {
@@ -35778,7 +35809,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\029\027\028\026\027\024\027\027\024\018\025\027\029"] = {
@@ -35853,7 +35884,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\030\018\027\025\026\029\027\027\030"] = {
@@ -35906,7 +35937,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\018\029\018\029\030\024\024\029"] = {
@@ -35947,7 +35978,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\029\019\019\028\019\025\025\024\026"] = {
@@ -35985,7 +36016,7 @@ function SaveManager.init()
 	    	            rsd = 0,
 	    	            umoa = false,
 	    	            smod = "d\005k",
-	    	            bfht = 0.3,
+	    	            bfht = 0.5000000596046448,
 	    	            pfh = false,
 	    	            after = 0,
 	    	            imb = false,
@@ -36000,7 +36031,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\025\027\019\028\018\028\030\018\019"] = {
@@ -36064,7 +36095,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\027\028\027\026\026\026\026\018"] = {
@@ -36117,7 +36148,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\025\018\018\027\025\025\030\029\025"] = {
@@ -36158,7 +36189,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = true,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\031\027\026\026\031\029\024\024\019"] = {
@@ -36211,7 +36242,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\031\019\019\030\026\026\025\027\019"] = {
@@ -36264,7 +36295,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\030\019\028\028\030\028\026\028\027"] = {
@@ -36317,7 +36348,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\025\030\018\030\028\031\029\018\019\024\028\026\029"] = {
@@ -36370,7 +36401,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\028\029\031\028\019\018\026\027\026"] = {
@@ -36423,7 +36454,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\027\027\028\029\031\028\029\025\030"] = {
@@ -36498,7 +36529,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\029\031\018\028\024\029\027\026\031"] = {
@@ -36551,7 +36582,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\029\030\019\019\031\029\027\031"] = {
@@ -36604,7 +36635,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\026\027\029\030\027\018\030\031\028"] = {
@@ -36657,7 +36688,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\024\024\018\028\018\031\019\026\030\031\028\027\029"] = {
@@ -36710,7 +36741,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\028\028\019\025\031\024\030\029\027"] = {
@@ -36751,7 +36782,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\025\029\030\031\025\027\018\030\029\018\030\024\019"] = {
@@ -36792,7 +36823,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\024\025\018\027\030\030\031\019\025"] = {
@@ -36845,7 +36876,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\025\018\024\027\025\031\024\019\019"] = {
@@ -36898,7 +36929,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\031\018\031\019\031\028\026\026\030"] = {
@@ -36951,7 +36982,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\024\019\025\029\018\025\027\027\026"] = {
@@ -37004,7 +37035,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\024\018\031\025\026\026\025\024"] = {
@@ -37057,7 +37088,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\018\030\018\031\026\026\019\025"] = {
@@ -37083,14 +37114,14 @@ function SaveManager.init()
 	    	            rsd = 0,
 	    	            umoa = true,
 	    	            smod = "}OKZEDlFE_XCYB~OY^",
-	    	            bfht = 0.3,
+	    	            bfht = 0.6,
 	    	            pfh = true,
 	    	            after = 0,
 	    	            imb = false,
 	    	            dp = false,
 	    	            phd = false,
 	    	            phds = 0.6,
-	    	            pfht = 0.5000000596046448,
+	    	            pfht = 0.25,
 	    	            aatk = false,
 	    	            nvfb = true,
 	    	            smn = false,
@@ -37098,7 +37129,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\018\031\025\030\019\028\029\028"] = {
@@ -37151,7 +37182,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -33.583333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\019\031\018\028\030\018\031\030"] = {
@@ -37204,7 +37235,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\019\026\025\025\026\030\026\027\018"] = {
@@ -37257,7 +37288,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\025\018\031\026\029\018\024\030\018"] = {
@@ -37310,7 +37341,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\030\024\026\026\030\030\029\026\029"] = {
@@ -37363,7 +37394,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -58.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\031\030\030\027\018\025\029\030\030"] = {
@@ -37416,7 +37447,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\019\019\027\025\031\018\030\019\031\027\031\029"] = {
@@ -37480,7 +37511,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\025\018\027\027\027\027\025\019"] = {
@@ -37521,7 +37552,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\019\026\024\028\025\028\028\027"] = {
@@ -37574,7 +37605,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\029\026\018\024\024\031\028\018"] = {
@@ -37627,7 +37658,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\024\027\025\027\031\027\018\026\029"] = {
@@ -37691,7 +37722,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\031\031\025\029\025\030\025\024\031"] = {
@@ -37744,7 +37775,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\027\018\019\031\025\028\025\019"] = {
@@ -37776,7 +37807,7 @@ function SaveManager.init()
 	    	                Y = -68.58333333333333,
 	    	                Z = -68.58333333333333
 	    	            },
-	    	            fhb = true,
+	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            duih = false,
 	    	            rsd = 0,
@@ -37797,7 +37828,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\018\029\018\019\024\031\030\018"] = {
@@ -37838,7 +37869,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\025\027\026\018\029\029\019\024\026"] = {
@@ -37891,7 +37922,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\031\028\026\031\029\024\024\026\029\029\026\029\030"] = {
@@ -37944,7 +37975,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\028\027\026\027\026\027\031\030\024"] = {
@@ -38019,7 +38050,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\028\029\027\027\019\027\025\018\029\019\025\029\018"] = {
@@ -38072,7 +38103,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\026\030\026\030\026\024\030\019\026\026\030\030\031"] = {
@@ -38125,7 +38156,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\028\030\031\024\026\026\026\027\019\026\031\024\024"] = {
@@ -38166,7 +38197,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\018\030\027\029\019\031\028\028\028\029\030\030"] = {
@@ -38215,11 +38246,11 @@ function SaveManager.init()
 	    	            aatk = false,
 	    	            nvfb = false,
 	    	            smn = false,
-	    	            ha = false,
+	    	            ha = true,
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = true,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\027\018\026\018\025\029\019\028"] = {
@@ -38272,7 +38303,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\031\026\018\029\024\031\027\027\027"] = {
@@ -38325,7 +38356,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -25.5,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\027\024\019\027\024\031\027\030\024"] = {
@@ -38378,7 +38409,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\030\025\031\029\029\026\025\027\027"] = {
@@ -38419,7 +38450,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\027\026\019\028\030\027\030\030\025"] = {
@@ -38460,7 +38491,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.916666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\029\026\029\018\028\029\031\028\025"] = {
@@ -38513,12 +38544,12 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\024\024\031\028\030\025\027\025\031\030\028\030\019"] = {
 	    	            rpd = 0,
-	    	            hso = -4,
+	    	            hso = -5,
 	    	            ieae = false,
 	    	            actions = {
 	    	                {
@@ -38558,7 +38589,7 @@ function SaveManager.init()
 	    	            dp = false,
 	    	            phd = false,
 	    	            phds = 0.6,
-	    	            pfht = 0.5000000596046448,
+	    	            pfht = 0.5,
 	    	            aatk = false,
 	    	            nvfb = true,
 	    	            smn = false,
@@ -38566,7 +38597,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\019\025\026\018\031\024\018\030\024\028\026\025\030"] = {
@@ -38630,7 +38661,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\029\030\028\026\030\030\019\026\030"] = {
@@ -38683,7 +38714,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\029\028\031\025\028\027\026\029\029\029\028\019\025"] = {
@@ -38736,7 +38767,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\018\027\019\027\028\019\029\024"] = {
@@ -38789,12 +38820,12 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\027\030\027\029\024\029\019\031"] = {
 	    	            rpd = 0,
-	    	            hso = 0,
+	    	            hso = 8,
 	    	            ieae = false,
 	    	            actions = {
 	    	                {
@@ -38853,7 +38884,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\025\024\024\028\026\026\027\025"] = {
@@ -38894,7 +38925,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\029\025\027\025\030\029\029\028\018\028\026\030\019"] = {
@@ -38947,7 +38978,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.75,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\018\025\019\019\028\028\026\028"] = {
@@ -38988,7 +39019,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -47.08333333333333,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\019\030\031\026\029\029\027\026\024\019\025\030\024"] = {
@@ -39041,7 +39072,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\026\026\024\027\019\027\027\026\030\018\029\019\030"] = {
@@ -39094,7 +39125,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\027\019\029\031\019\025\019\019\025"] = {
@@ -39147,7 +39178,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\031\026\027\026\030\030\018\030\028"] = {
@@ -39200,7 +39231,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\019\028\026\019\025\030\030\031\031"] = {
@@ -39264,7 +39295,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -58.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\030\024\018\031\024\024\030\018\025"] = {
@@ -39317,7 +39348,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\024\029\031\018\025\029\030\031"] = {
@@ -39358,7 +39389,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\025\024\018\030\018\019\028\027\030\026\024\026\024"] = {
@@ -39399,7 +39430,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\026\028\026\019\027\027\025\028"] = {
@@ -39440,7 +39471,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\024\018\031\025\025\026\018\024"] = {
@@ -39493,7 +39524,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\030\025\031\029\029\018\031\029\027"] = {
@@ -39534,7 +39565,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\031\019\024\026\030\029\029\026\025"] = {
@@ -39587,7 +39618,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\027\028\026\028\025\028\025\029\024\030\029\018\028"] = {
@@ -39640,7 +39671,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\026\028\024\031\030\027\031\025\031\031\031\024"] = {
@@ -39693,7 +39724,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\026\029\030\024\025\028\027\018\026\025\024\028\025"] = {
@@ -39734,7 +39765,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\025\031\029\030\027\026\029\027\025"] = {
@@ -39787,7 +39818,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\026\031\031\031\031\018\029\030\026"] = {
@@ -39840,7 +39871,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\029\019\028\028\031\026\025\026\019\025\027\024\018"] = {
@@ -39893,7 +39924,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\019\029\028\028\025\025\027\028\025"] = {
@@ -39946,7 +39977,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -53.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\018\028\025\030\024\030\024\019\026"] = {
@@ -39999,7 +40030,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\027\026\018\031\028\028\024\028\019"] = {
@@ -40052,7 +40083,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\028\028\026\018\026\025\026\018\025\030\029\026\018"] = {
@@ -40105,7 +40136,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\030\027\025\018\024\024\018\024\028"] = {
@@ -40169,7 +40200,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\028\024\018\030\027\018\024\027"] = {
@@ -40222,7 +40253,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\025\029\024\030\029\019\019\030\026"] = {
@@ -40263,7 +40294,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\031\019\019\027\031\031\029\026\030"] = {
@@ -40327,7 +40358,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\024\028\031\025\019\019\019\030\018\019\030\029"] = {
@@ -40380,7 +40411,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\027\028\019\019\019\028\031\027\024"] = {
@@ -40444,7 +40475,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\027\028\026\024\031\031\018\019\030"] = {
@@ -40485,7 +40516,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\028\028\019\026\019\031\019\019"] = {
@@ -40526,7 +40557,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\018\029\019\025\018\019\026\024"] = {
@@ -40567,7 +40598,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\026\028\025\027\019\031\024\027\027"] = {
@@ -40608,7 +40639,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\029\031\028\031\019\026\027\028\030\029\027\019\026"] = {
@@ -40661,7 +40692,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\028\024\028\026\019\024\024\019\019\030\024\018"] = {
@@ -40714,7 +40745,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\019\027\028\031\031\026\027\030\028\024\025\031\030"] = {
@@ -40767,7 +40798,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.916666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\019\024\027\024\024\028\024\028\027"] = {
@@ -40808,7 +40839,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\028\025\018\024\028\025\029\019\028"] = {
@@ -40872,7 +40903,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -56.083333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\028\018\031\018\024\019\018\028\024\024\028\025\024"] = {
@@ -40917,7 +40948,7 @@ function SaveManager.init()
 	    	            dp = false,
 	    	            phd = false,
 	    	            phds = 0.6,
-	    	            pfht = 0.5000000596046448,
+	    	            pfht = 0.5,
 	    	            aatk = false,
 	    	            nvfb = true,
 	    	            smn = false,
@@ -40925,7 +40956,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\031\028\029\028\018\028\026\030\028"] = {
@@ -40978,7 +41009,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\025\025\029\027\019\024\018\028\028"] = {
@@ -41042,7 +41073,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -56.916666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\029\026\019\024\019\018\026\031\026\018\018\030"] = {
@@ -41095,7 +41126,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\026\025\028\030\031\029\025\026\030\029\019\018"] = {
@@ -41148,7 +41179,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\027\024\018\024\029\024\029\027\029\031\019\019\030"] = {
@@ -41201,7 +41232,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\025\018\018\028\025\019\025\027"] = {
@@ -41254,7 +41285,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\025\027\024\025\030\029\026\029\025\024\031\026\025"] = {
@@ -41307,7 +41338,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\025\018\029\027\029\029\027\018\030\025\029\031\030"] = {
@@ -41348,7 +41379,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\028\028\028\024\018\029\018\026\028"] = {
@@ -41389,7 +41420,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\025\025\024\031\030\024\031\028\029\028\026\026\026"] = {
@@ -41442,7 +41473,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\024\028\019\025\025\027\024\024"] = {
@@ -41483,7 +41514,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\024\030\018\018\026\028\025\030\025"] = {
@@ -41536,7 +41567,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\025\019\028\031\024\025\026\026\025"] = {
@@ -41589,7 +41620,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\029\024\018\029\027\026\019\030"] = {
@@ -41642,7 +41673,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\025\031\029\018\026\028\031\019\025"] = {
@@ -41695,7 +41726,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -56.083333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\031\026\027\030\019\029\028\024\029"] = {
@@ -41736,7 +41767,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\025\019\019\018\018\018\018\025"] = {
@@ -41789,7 +41820,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\024\027\030\026\027\024\028\028\024"] = {
@@ -41853,7 +41884,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\025\019\028\030\018\024\027\031"] = {
@@ -41906,7 +41937,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\031\031\028\025\026\031\027\026\026"] = {
@@ -41959,7 +41990,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\024\028\024\031\026\031\031\029\019\018\031\028\028"] = {
@@ -42000,7 +42031,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\025\025\028\024\026\024\025\026\031\018\026\024\030"] = {
@@ -42041,7 +42072,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\028\028\019\019\025\031\028\030"] = {
@@ -42105,7 +42136,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\030\025\031\029\028\025\031\029\019"] = {
@@ -42146,7 +42177,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\019\028\018\029\019\028\019\019\019"] = {
@@ -42199,7 +42230,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -43.5,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\019\019\028\026\026\018\024\024"] = {
@@ -42263,7 +42294,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\026\028\029\027\026\031\025\027\029"] = {
@@ -42308,7 +42339,7 @@ function SaveManager.init()
 	    	            dp = false,
 	    	            phd = false,
 	    	            phds = 0.6,
-	    	            pfht = 0.5000000596046448,
+	    	            pfht = 0.5,
 	    	            aatk = false,
 	    	            nvfb = true,
 	    	            smn = false,
@@ -42316,7 +42347,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\024\027\029\025\028\027\025\019\024\019\029\018\029"] = {
@@ -42357,7 +42388,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -44.41666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\026\027\029\025\019\025\029\026\018"] = {
@@ -42410,7 +42441,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\027\029\029\030\024\030\029\027"] = {
@@ -42463,7 +42494,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\019\030\027\027\027\018\019\024\029"] = {
@@ -42527,7 +42558,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\025\030\027\019\024\028\030\029\031\018\024\031\019"] = {
@@ -42580,7 +42611,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\018\019\024\019\028\018\031\029\028\025\031\031\025"] = {
@@ -42621,7 +42652,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -66.83333333333333,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\024\029\031\031\018\024\025\018"] = {
@@ -42674,7 +42705,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\031\024\019\018\026\026\029\024\018\018\031\031\029"] = {
@@ -42715,7 +42746,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\030\027\025\018\024\028\030\026\019"] = {
@@ -42768,7 +42799,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\030\031\027\027\030\031\030\027\018"] = {
@@ -42821,7 +42852,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\018\027\030\024\027\025\027\026"] = {
@@ -42874,7 +42905,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\018\024\025\029\025\027\024\024"] = {
@@ -42915,7 +42946,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\025\029\024\030\024\024\019\028\026"] = {
@@ -42968,7 +42999,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\030\029\027\024\028\024\030\019\030\019\018\027\031"] = {
@@ -43009,7 +43040,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\024\018\031\024\031\024\027\027"] = {
@@ -43062,7 +43093,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\030\026\019\019\027\027\018\025\030\018\024\019\026"] = {
@@ -43115,7 +43146,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\026\029\025\029\024\027\024\027"] = {
@@ -43168,7 +43199,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\025\026\024\019\025\031\030\028\030"] = {
@@ -43221,7 +43252,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\018\029\018\018\029\028\024\027"] = {
@@ -43262,7 +43293,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\026\031\024\024\028\031\027\024\027"] = {
@@ -43315,7 +43346,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\025\026\025\031\025\030\031\026"] = {
@@ -43356,7 +43387,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\019\031\018\028\019\025\026\029"] = {
@@ -43409,7 +43440,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\030\031\027\027\024\019\029\019\026"] = {
@@ -43462,7 +43493,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\027\024\031\028\030\028\031\029"] = {
@@ -43515,7 +43546,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\030\026\026\025\031\026\025\028\019\024\024\030\026"] = {
@@ -43568,7 +43599,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.916666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\027\031\019\029\018\028\028\018\018\018\029\028\027"] = {
@@ -43621,7 +43652,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -39.91666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\030\028\018\024\018\029\028\026\029"] = {
@@ -43674,7 +43705,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\026\025\018\018\031\018\031\029\026"] = {
@@ -43727,7 +43758,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\018\028\027\031\025\026\026\026"] = {
@@ -43780,7 +43811,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\027\031\018\030\024\018\025\030\024\029\031\028\027"] = {
@@ -43821,7 +43852,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\025\018\018\028\026\026\028\024"] = {
@@ -43874,7 +43905,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\019\030\028\031\025\018\025\019\031\031\031\029\018"] = {
@@ -43927,7 +43958,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\031\026\026\024\019\027\025\019\030"] = {
@@ -43980,7 +44011,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\025\028\029\029\025\026\028\031\026"] = {
@@ -44021,7 +44052,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\030\028\029\018\025\031\028\024\028"] = {
@@ -44062,7 +44093,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\018\019\031\018\026\025\028\029"] = {
@@ -44115,7 +44146,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\029\027\029\029\031\025\025\019\027"] = {
@@ -44223,7 +44254,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\030\018\027\024\019\028\031\024\018"] = {
@@ -44276,7 +44307,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\025\031\025\019\028\024\027\024\028\028\019\027\030"] = {
@@ -44340,7 +44371,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\031\026\029\027\019\024\019\029\029\031\026\024\029"] = {
@@ -44381,7 +44412,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\019\028\018\024\018\018\027\027\028"] = {
@@ -44434,7 +44465,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -41.66666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\028\025\026\028\029\030\025\026\025\029\026\026\031"] = {
@@ -44487,7 +44518,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.083333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\025\025\024\027\030\029\031\026\024\031\029\019\026"] = {
@@ -44562,7 +44593,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\024\018\029\027\024\019\026\031\029\028\025\027\024"] = {
@@ -44615,7 +44646,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\019\031\025\025\024\028\030\028\026"] = {
@@ -44668,7 +44699,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\018\026\031\029\027\029\030\030\028\025\025\019\029"] = {
@@ -44732,7 +44763,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\026\024\019\030\027\019\031\024\019\026\018\028"] = {
@@ -44807,7 +44838,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\030\030\024\030\025\018\024\029\026"] = {
@@ -44860,7 +44891,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.916666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\026\029\026\019\031\028\027\026\028\018\026\025\027"] = {
@@ -44913,7 +44944,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\025\029\024\031\028\026\029\027\024"] = {
@@ -44954,7 +44985,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -36.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\029\026\028\018\030\025\025\027"] = {
@@ -45007,7 +45038,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -68.58333333333333,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\019\031\018\029\025\029\030\031"] = {
@@ -45060,7 +45091,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\018\025\024\029\024\027\029\030\028"] = {
@@ -45113,7 +45144,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.58333333333333,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\024\026\018\030\030\031\025\024\027"] = {
@@ -45166,7 +45197,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\019\028\027\028\026\026\026\018\030"] = {
@@ -45219,7 +45250,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\027\026\024\030\026\026\026\027\024\024\030\029\025"] = {
@@ -45272,7 +45303,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\024\024\031\026\018\027\019\028\029"] = {
@@ -45313,7 +45344,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -47.08333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\026\028\026\019\031\018\019\024"] = {
@@ -45354,7 +45385,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\025\029\018\026\025\027\026\029\028\024\029\028\030"] = {
@@ -45407,7 +45438,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\029\026\031\018\024\024\026\025\026\018\031\027\027"] = {
@@ -45460,7 +45491,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\027\029\027\024\018\030\028\018\018\029\027\018\024"] = {
@@ -45513,7 +45544,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\027\026\028\024\024\031\026\028\030"] = {
@@ -45566,7 +45597,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\019\019\026\019\018\019\030\027\018"] = {
@@ -45619,7 +45650,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\029\019\028\024\024\031\019\028\027\030\025\019\025"] = {
@@ -45672,7 +45703,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\019\028\019\019\018\028\019\026\024"] = {
@@ -45713,7 +45744,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\030\019\027\029\029\028\028\019"] = {
@@ -45754,7 +45785,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\029\030\030\029\024\018\030\029\024\019\029\027\026"] = {
@@ -45795,7 +45826,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\028\029\026\027\026\026\028\029\025\031\026\029\027"] = {
@@ -45848,7 +45879,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -54.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\019\029\024\025\026\026\019\019\031\018\029\019\028"] = {
@@ -45901,7 +45932,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\030\028\029\018\024\029\024\019\024"] = {
@@ -45942,7 +45973,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\030\024\026\018\025\026\029\026"] = {
@@ -45983,7 +46014,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\025\019\027\025\018\027\025\030\028\019\026\024\019"] = {
@@ -46036,7 +46067,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\029\024\028\019\031\026\030\031\028\029\031\024\031"] = {
@@ -46122,7 +46153,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\025\024\018\028\027\030\029\028\028"] = {
@@ -46175,7 +46206,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -57.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\018\024\029\018\018\028\019\027\030"] = {
@@ -46216,7 +46247,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = true,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\027\019\025\025\031\027\031\027\026"] = {
@@ -46257,7 +46288,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\024\019\025\018\029\029\028\026\031"] = {
@@ -46310,7 +46341,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\030\019\027\029\031\027\026\028"] = {
@@ -46351,7 +46382,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\026\031\027\026\019\030\025\026\025\018\024\029\019"] = {
@@ -46415,7 +46446,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\029\018\019\025\025\031\030\026"] = {
@@ -46456,7 +46487,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\029\026\029\030\024\027\018\029\027\031\026\018"] = {
@@ -46497,7 +46528,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\027\030\024\026\024\018\019\019\029\019\031\027\024"] = {
@@ -46550,7 +46581,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\024\026\019\024\031\031\029\031\018"] = {
@@ -46603,7 +46634,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\028\019\019\027\030\029\029\026"] = {
@@ -46656,7 +46687,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\025\031\028\024\030\019\025\018\028"] = {
@@ -46709,7 +46740,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\018\029\018\029\028\018\027\027"] = {
@@ -46750,7 +46781,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\027\018\018\026\028\031\025\025\028\027\031\031\018"] = {
@@ -46803,7 +46834,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\029\031\026\025\031\025\031\018\031"] = {
@@ -46846,9 +46877,9 @@ function SaveManager.init()
 	    	                Y = -66.91666666666667,
 	    	                Z = -66.91666666666667
 	    	            },
-	    	            fhb = true,
+	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
-	    	            duih = true,
+	    	            duih = false,
 	    	            rsd = 0,
 	    	            umoa = true,
 	    	            smod = "lFKGOmXKH",
@@ -46867,7 +46898,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -60.083333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\028\026\029\031\025\018\026\030\029"] = {
@@ -46912,7 +46943,7 @@ function SaveManager.init()
 	    	            dp = false,
 	    	            phd = false,
 	    	            phds = 0.6,
-	    	            pfht = 0.5,
+	    	            pfht = 0.5000000596046448,
 	    	            aatk = false,
 	    	            nvfb = true,
 	    	            smn = false,
@@ -46920,7 +46951,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\019\026\028\024\028\031\029\030"] = {
@@ -46973,7 +47004,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\019\024\024\025\027\026\031\027\028"] = {
@@ -47026,7 +47057,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\028\028\031\029\024\030\018\027\019"] = {
@@ -47067,7 +47098,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -59.166666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\029\029\018\025\031\029\019\019\030"] = {
@@ -47120,7 +47151,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\028\028\030\031\031\024\024\024"] = {
@@ -47173,7 +47204,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\019\028\028\029\019\026\024\018\025"] = {
@@ -47237,7 +47268,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -34.5,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\027\027\019\024\018\029\018\027\030"] = {
@@ -47290,7 +47321,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\019\031\026\029\018\028\030\019\026\031\025\028\028"] = {
@@ -47343,7 +47374,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -52.5,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\018\028\029\019\018\025\024\031\026\031\031\028\028"] = {
@@ -47396,7 +47427,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\018\030\027\029\029\026\024\018\019\031\024\024\019"] = {
@@ -47449,7 +47480,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\027\025\030\026\030\028\025\024\027"] = {
@@ -47502,7 +47533,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\030\019\028\028\030\026\029\028\026"] = {
@@ -47555,7 +47586,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\019\028\029\024\026\025\029\018\027\030\027\024\029"] = {
@@ -47608,7 +47639,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\030\019\024\029\027\026\030\026"] = {
@@ -47661,7 +47692,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\026\026\025\028\024\019\026\031\028\028\018\027"] = {
@@ -47714,7 +47745,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\029\030\019\019\025\028\026\028"] = {
@@ -47767,7 +47798,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\018\019\025\027\025\025\026\024\026"] = {
@@ -47831,7 +47862,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.0,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\025\030\024\029\026\031\025\030\030\027\030\031"] = {
@@ -47872,7 +47903,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\030\030\024\024\019\027\029\027\029\028\019\028\025"] = {
@@ -47925,7 +47956,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\025\029\031\027\025\027\027\019\027"] = {
@@ -47978,7 +48009,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\027\026\018\026\030\026\018\027\029"] = {
@@ -48019,12 +48050,12 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\024\029\026\030\019\030\026\024"] = {
 	    	            rpd = 0,
-	    	            hso = 2,
+	    	            hso = -5,
 	    	            ieae = false,
 	    	            actions = {
 	    	                {
@@ -48051,7 +48082,7 @@ function SaveManager.init()
 	    	                Y = -68.58333333333333,
 	    	                Z = -68.58333333333333
 	    	            },
-	    	            fhb = true,
+	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            duih = false,
 	    	            rsd = 0,
@@ -48062,17 +48093,17 @@ function SaveManager.init()
 	    	            after = 0,
 	    	            imb = false,
 	    	            dp = false,
-	    	            phd = true,
-	    	            phds = 1,
-	    	            pfht = 0.4,
+	    	            phd = false,
+	    	            phds = 0.6,
+	    	            pfht = 0.5000000596046448,
 	    	            aatk = false,
-	    	            nvfb = false,
+	    	            nvfb = true,
 	    	            smn = false,
 	    	            ha = false,
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\029\019\027\030\029\026\024\027\030\026\019\027"] = {
@@ -48125,7 +48156,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\024\029\018\029\018\031\027\018"] = {
@@ -48166,7 +48197,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\025\029\019\030\026\028\018\025\028"] = {
@@ -48219,7 +48250,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\028\028\028\024\018\030\027\018\024"] = {
@@ -48260,7 +48291,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\030\027\019\031\018\024\027\029"] = {
@@ -48301,7 +48332,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\025\025\028\029\028\026\019\027\018\030\031\026\025"] = {
@@ -48354,7 +48385,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\030\018\027\025\026\024\030\028\025"] = {
@@ -48407,7 +48438,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\025\019\030\024\029\029\019\031\026"] = {
@@ -48471,7 +48502,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\018\031\025\024\027\027\031\018"] = {
@@ -48524,7 +48555,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.083333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\025\027\027\031\018\025\025\024\026\025\024\030\024"] = {
@@ -48565,7 +48596,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\031\027\018\028\027\018\018\024\031\027\026\024\027"] = {
@@ -48618,7 +48649,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\024\026\028\025\026\031\018\025"] = {
@@ -48671,7 +48702,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.916666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\019\018\018\025\019\031\019\029\029\025\019\018"] = {
@@ -48724,7 +48755,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\025\026\019\031\031\030\019\031\018"] = {
@@ -48765,7 +48796,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\031\026\018\024\018\028\029\030"] = {
@@ -48806,7 +48837,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -51.58333333333333,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\024\018\024\019\025\018\028\024"] = {
@@ -48859,7 +48890,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\028\027\026\025\019\025\031\019"] = {
@@ -48900,7 +48931,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\025\027\018\024\031\030\026\028\031"] = {
@@ -48953,7 +48984,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\028\027\026\030\030\029\027\027"] = {
@@ -48994,7 +49025,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\025\029\031\031\029\027\030\026\031"] = {
@@ -49035,7 +49066,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\018\024\029\030\024\025\026\028\025"] = {
@@ -49076,7 +49107,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\018\024\018\025\027\031\029\028\026"] = {
@@ -49129,7 +49160,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\025\031\027\027\031\018\028\026\025"] = {
@@ -49170,7 +49201,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = true,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\025\018\018\028\027\019\019\018"] = {
@@ -49223,7 +49254,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\018\025\024\029\024\030\018\029\028"] = {
@@ -49276,7 +49307,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.58333333333333,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\026\018\030\018\026\029\027\018"] = {
@@ -49329,7 +49360,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -56.916666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\031\026\026\029\026\030\031\031\030"] = {
@@ -49382,7 +49413,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\025\029\024\030\029\028\018\019\029"] = {
@@ -49435,7 +49466,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\028\031\030\027\026\031\018\018\018"] = {
@@ -49488,7 +49519,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\029\025\026\019\029\031\019\029"] = {
@@ -49541,7 +49572,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -54.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\019\030\025\030\025\019\026\024\024\024\019\018\028"] = {
@@ -49594,7 +49625,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\028\029\031\029\024\024\024\029\030"] = {
@@ -49647,7 +49678,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\026\018\029\029\019\024\028\026\028\031\029\027\026"] = {
@@ -49700,7 +49731,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -55.166666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\026\024\027\029\018\029\019\018\028"] = {
@@ -49753,7 +49784,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\031\031\027\026\027\024\025\018\026"] = {
@@ -49794,7 +49825,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\029\031\031\030\030\024\018\029"] = {
@@ -49847,7 +49878,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -54.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\018\018\026\030\029\025\029\019\031"] = {
@@ -49900,7 +49931,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.083333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\019\018\019\030\028\030\029\024\019"] = {
@@ -49953,7 +49984,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.75,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\030\027\025\030\031\029\028\026\030"] = {
@@ -50006,7 +50037,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -54.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\019\031\019\028\026\025\018\031\018"] = {
@@ -50059,7 +50090,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\030\025\029\019\026\024\031\031\018"] = {
@@ -50112,7 +50143,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\018\028\024\026\029\030\031\029\028\029\019\030\030"] = {
@@ -50165,7 +50196,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\026\029\027\031\031\029\026\027\028"] = {
@@ -50218,7 +50249,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\018\029\019\026\027\024\027\024"] = {
@@ -50259,7 +50290,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\027\026\030\024\019\030\029\025\028"] = {
@@ -50312,7 +50343,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\025\031\019\029\024\026\027\030\018"] = {
@@ -50376,7 +50407,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\029\031\026\024\019\028\028\025\018"] = {
@@ -50429,7 +50460,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\031\027\025\019\024\024\018\030\018\026\026\025"] = {
@@ -50482,7 +50513,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\029\028\026\019\027\019\018\028"] = {
@@ -50535,7 +50566,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\019\031\031\028\027\030\018\031\028"] = {
@@ -50588,7 +50619,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\028\026\026\030\018\031\024\024\025"] = {
@@ -50629,7 +50660,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\018\019\025\028\029\031\026\028\027\028\031\018\027"] = {
@@ -50682,7 +50713,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\029\031\019\030\027\019\024\025\027\018\031\031\024"] = {
@@ -50746,7 +50777,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\030\031\027\027\025\018\024\026\024"] = {
@@ -50799,7 +50830,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\029\024\026\024\030\019\025\025\025\024\018\030\025"] = {
@@ -50852,7 +50883,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.666666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\026\031\028\029\026\027\018\025"] = {
@@ -50905,7 +50936,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\027\031\029\031\027\031\028\019"] = {
@@ -50958,7 +50989,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\019\028\018\024\018\024\024\027\030"] = {
@@ -51011,7 +51042,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -60.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\026\031\024\025\028\024\019\028"] = {
@@ -51064,7 +51095,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\026\028\026\019\025\031\029\019"] = {
@@ -51105,7 +51136,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\025\029\024\030\029\018\030\024\024"] = {
@@ -51146,7 +51177,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\024\018\031\018\018\025\030\029\031\029\026\029\018"] = {
@@ -51199,7 +51230,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\025\018\018\028\019\027\031\018"] = {
@@ -51252,7 +51283,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\030\030\025\018\018\025\030\031\018"] = {
@@ -51305,7 +51336,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\027\026\028\026\028\025\018\025\018\031\026\024\029"] = {
@@ -51358,7 +51389,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\019\027\026\019\019\025\025\026\030\019\031\026"] = {
@@ -51411,7 +51442,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\029\018\019\019\024\029\029\025\025"] = {
@@ -51464,7 +51495,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\027\029\018\027\027\028\026\018\019\030\024\031\019"] = {
@@ -51517,7 +51548,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\027\030\019\025\030\018\019\025\029"] = {
@@ -51558,7 +51589,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\018\025\030\031\030\019\025\018\029"] = {
@@ -51611,7 +51642,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\019\026\027\024\025\025\027\025\028\027\018\018\024"] = {
@@ -51652,7 +51683,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -43.5,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\025\030\031\028\024\024\031\025\024\018\027\025\030"] = {
@@ -51705,7 +51736,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\026\028\029\026\019\026\026\026\029"] = {
@@ -51758,7 +51789,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\019\024\027\018\031\025\018\018\031"] = {
@@ -51822,7 +51853,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -58.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\028\027\026\019\030\029\031\027"] = {
@@ -51863,7 +51894,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\025\018\018\031\029\019\030\028"] = {
@@ -51916,7 +51947,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\024\031\018\030\029\019\030\028\030"] = {
@@ -51969,7 +52000,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = true,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\031\024\019\019\018\024\018\018\028"] = {
@@ -52022,7 +52053,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\024\024\031\019\019\026\028\019"] = {
@@ -52075,7 +52106,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\024\018\031\027\019\027\025\027"] = {
@@ -52128,7 +52159,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\019\026\030\028\024\031\025\025\027"] = {
@@ -52181,7 +52212,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -53.333333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\025\027\031\029\024\025\030\019\027\018\028\030"] = {
@@ -52234,7 +52265,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -50.66666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\031\028\030\027\024\026\025\029\024"] = {
@@ -52287,7 +52318,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\028\028\028\024\029\019\030\024\029"] = {
@@ -52328,7 +52359,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\031\029\026\024\031\024\029\030\028\018\030\030\029"] = {
@@ -52381,7 +52412,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\029\027\028\026\019\031\028\031\027\028\028\031\019"] = {
@@ -52434,7 +52465,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\026\031\025\026\029\026\031\029\025"] = {
@@ -52487,7 +52518,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -60.083333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\019\030\027\029\025\018\029\028\019"] = {
@@ -52540,7 +52571,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\024\019\024\029\028\019\027\024\025"] = {
@@ -52593,7 +52624,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\028\018\026\031\018\031\028\029\029"] = {
@@ -52668,7 +52699,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\027\026\031\026\027\027\018\027\031"] = {
@@ -52721,7 +52752,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\030\030\031\030\018\019\027\028\026"] = {
@@ -52774,7 +52805,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\024\028\027\030\019\026\030\025\019"] = {
@@ -52849,7 +52880,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -56.083333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\026\027\019\028\018\028\024\019\027"] = {
@@ -52902,7 +52933,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\019\030\018\018\019\026\031\026\027\019\024\030\025"] = {
@@ -52955,7 +52986,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\031\018\024\029\024\031\026\026\026\026"] = {
@@ -52996,7 +53027,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\025\018\029\018\029\018\030\029\024"] = {
@@ -53049,7 +53080,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\025\029\024\030\027\024\019\024\031"] = {
@@ -53102,7 +53133,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\030\024\018\028\019\028\026\029\018"] = {
@@ -53155,7 +53186,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.666666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\030\027\031\026\029\030\018\029\026"] = {
@@ -53196,7 +53227,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\027\018\028\028\031\028\031\029\030"] = {
@@ -53249,7 +53280,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.91666666666667,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\027\025\018\019\026\029\030\027\028\026\029\031\031"] = {
@@ -53313,7 +53344,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -53.333333333333336,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\024\027\026\018\025\029\028\024\030\019"] = {
@@ -53366,7 +53397,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -65.0,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\029\031\027\029\018\028\026\028\019\018\019\031\025"] = {
@@ -53419,7 +53450,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\027\026\019\028\024\026\031\025\030"] = {
@@ -53460,7 +53491,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -56.083333333333336,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\028\026\025\030\027\031\019\025\028\029\030\030\029"] = {
@@ -53513,7 +53544,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -58.75,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\031\024\027\030\024\026\026\018\031\019"] = {
@@ -53566,7 +53597,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -61.416666666666664,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\026\030\028\018\028\030\028\025\031"] = {
@@ -53619,7 +53650,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.25,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\029\019\024\027\031\031\018\029\029\024\029\026"] = {
@@ -53666,8 +53697,8 @@ function SaveManager.init()
 	    	            imdd = -68.58333333333333,
 	    	            duih = false,
 	    	            rsd = 0,
-	    	            umoa = false,
-	    	            smod = "d\005k",
+	    	            umoa = true,
+	    	            smod = "iBEX_YiXC^",
 	    	            bfht = 0.3,
 	    	            pfh = false,
 	    	            after = 0,
@@ -53683,7 +53714,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = true,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\030\019\031\025\019\025\019\024\025\029"] = {
@@ -53747,7 +53778,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -57.833333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\028\026\025\026\029\029\026\025\030\027"] = {
@@ -53800,7 +53831,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -60.583333333333336,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\019\025\018\026\019\025\027\030\025"] = {
@@ -53853,7 +53884,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -59.666666666666664,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\029\027\026\018\027\024\028\026\019\025"] = {
@@ -53894,7 +53925,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -62.333333333333336,
 	    	            tag = "M1",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\024\026\030\019\024\030\019\025\030"] = {
@@ -53947,7 +53978,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\024\028\024\018\019\027\018\018\024"] = {
@@ -54000,7 +54031,7 @@ function SaveManager.init()
 	    	            iae = true,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\029\031\019\018\018\019\018\028\026\018"] = {
@@ -54053,7 +54084,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -64.16666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\027\027\018\025\027\019\028\027\019\018"] = {
@@ -54106,7 +54137,7 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            imxd = -63.666666666666664,
 	    	            tag = "Critical",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\025\019\027\026\019\027\029\028\018\029\030\030\028\025"] = {
@@ -54115,7 +54146,7 @@ function SaveManager.init()
 	    	            ieae = false,
 	    	            actions = {},
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\025\019\027\026\019\027\029\028\018\029\030\030\028\025",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54156,7 +54187,7 @@ function SaveManager.init()
 	    	            ieae = false,
 	    	            actions = {},
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\018\027\025\029\030\024\019\029\025\030\024\028\029\018",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54209,7 +54240,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = true,
 	    	            _id = "XHRKYYO^CN\016\005\005\019\024\031\028\024\025\031\024\029\025\025\018\019\026",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54273,7 +54304,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\024\030\019\028\025\025\019\027\030\025\031\027\031\026",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54337,7 +54368,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\025\030\028\026\026\031\027\030\025\024\028\030\027\025",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54385,7 +54416,7 @@ function SaveManager.init()
 	    	                        Y = -66.83333333333333,
 	    	                        Z = -61.833333333333336
 	    	                    },
-	    	                    when = 2.25,
+	    	                    when = -0.25,
 	    	                    ihbc = false
 	    	                },
 	    	                {
@@ -54396,12 +54427,12 @@ function SaveManager.init()
 	    	                        Y = -66.83333333333333,
 	    	                        Z = -61.0
 	    	                    },
-	    	                    when = 68.91666666666666,
+	    	                    when = 66.41666666666666,
 	    	                    ihbc = false
 	    	                }
 	    	            },
 	    	            ndfb = true,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\027\018\027\031\030\024\024\024\025\019\024\018\027\024",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54454,7 +54485,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\018\028\031\024\029\026\019\024\028\031\024\029\029\030",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54540,7 +54571,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\027\024\030\024\025\019\024\019\025\027\019\025\018\025",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54604,7 +54635,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\024\019\031\018\018\031\025\027\027\027\026\028\019\030",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54690,7 +54721,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\029\028\029\018\024\028\031\028\031\030\025\029\028\027",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54760,7 +54791,7 @@ function SaveManager.init()
 	    	                        Y = -64.33333333333333,
 	    	                        Z = -64.41666666666667
 	    	                    },
-	    	                    when = 60.58333333333334,
+	    	                    when = 64.75,
 	    	                    ihbc = false
 	    	                },
 	    	                {
@@ -54776,7 +54807,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\018\029\026\018\030\018\019\025\025\027\031\026\019\028",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54851,7 +54882,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\027\030\018\026\031\019\018\024\018\026\028\028\027\019",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54904,7 +54935,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\019\028\030\030\028\025\029\030\024\029\018\030\027\024",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -54957,7 +54988,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\029\024\029\029\018\031\026\026\018\025\024\029\028\024",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55021,7 +55052,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\024\029\019\024\025\019\019\018\027\024\024\027\018\028",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55096,7 +55127,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\029\028\026\028\028\026\025\026\025\018\018\027\030\030",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55112,8 +55143,8 @@ function SaveManager.init()
 	    	            imdd = -68.58333333333333,
 	    	            duih = false,
 	    	            rsd = 0,
-	    	            umoa = false,
-	    	            smod = "d\005k",
+	    	            umoa = true,
+	    	            smod = "xK^aCDMyFKYBnKYB",
 	    	            bfht = 0.3,
 	    	            pfh = false,
 	    	            after = 0,
@@ -55177,7 +55208,7 @@ function SaveManager.init()
 	    	                        Y = -65.91666666666667,
 	    	                        Z = -66.0
 	    	                    },
-	    	                    when = 116.41666666666666,
+	    	                    when = 123.08333333333334,
 	    	                    ihbc = false
 	    	                },
 	    	                {
@@ -55193,7 +55224,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\018\026\025\028\029\018\027\024\026\019\026\030\024\026",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55246,7 +55277,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\018\019\018\019\031\028\027\030\024\025\027\026\019\029",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55321,7 +55352,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\029\024\031\025\029\028\027\025\031\019\027\018\019\030",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55385,7 +55416,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\019\030\030\026\027\024\026\026\030\027\024\024\025\026",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55438,7 +55469,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\019\019\028\018\031\018\019\031\030\031\031\026\018\024",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55491,7 +55522,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\018\026\029\024\025\018\019\019\027\029\030\029\018\019",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55541,13 +55572,35 @@ function SaveManager.init()
 	    	                    },
 	    	                    when = -50.25,
 	    	                    ihbc = false
+	    	                },
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\025",
+	    	                    hitbox = {
+	    	                        X = -59.75,
+	    	                        Y = -59.75,
+	    	                        Z = -59.75
+	    	                    },
+	    	                    when = -0.25,
+	    	                    ihbc = false
+	    	                },
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\024",
+	    	                    hitbox = {
+	    	                        X = -59.75,
+	    	                        Y = -59.75,
+	    	                        Z = -59.75
+	    	                    },
+	    	                    when = -25.25,
+	    	                    ihbc = false
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\026\026\028\027\031\028\018\031\024\030\019\018\018\027",
 	    	            mat = 2000,
-	    	            rpue = true,
+	    	            rpue = false,
 	    	            srpn = false,
 	    	            punishable = 0,
 	    	            name = "xK^aCDMyZCDgE\\O",
@@ -55558,7 +55611,7 @@ function SaveManager.init()
 	    	            },
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
-	    	            duih = true,
+	    	            duih = false,
 	    	            rsd = -50.25,
 	    	            umoa = false,
 	    	            smod = "d\005k",
@@ -55597,7 +55650,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\026\026\019\030\029\024\031\027\030\030\027\019\024\025",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55605,16 +55658,16 @@ function SaveManager.init()
 	    	            punishable = 0,
 	    	            name = "xK^aCDM~_XDnKYB",
 	    	            hitbox = {
-	    	                X = -64.41666666666667,
-	    	                Y = -64.41666666666667,
-	    	                Z = -64.33333333333333
+	    	                X = -64.0,
+	    	                Y = -65.0,
+	    	                Z = -63.916666666666664
 	    	            },
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            duih = true,
 	    	            rsd = 0,
-	    	            umoa = false,
-	    	            smod = "d\005k",
+	    	            umoa = true,
+	    	            smod = "xK^aCDM~_XDnKYB",
 	    	            bfht = 0.3,
 	    	            pfh = false,
 	    	            after = 0,
@@ -55672,7 +55725,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\025\019\025\029\030\030\019\029\028\019\031\030\031\028",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55725,7 +55778,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^EN\016\005\005\019\024\027\027\027\030\026\024\028\029\026\025\027\030",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55766,7 +55819,7 @@ function SaveManager.init()
 	    	            ieae = false,
 	    	            actions = {
 	    	                {
-	    	                    _type = "nENMO",
+	    	                    _type = "zKXXS",
 	    	                    name = "\027",
 	    	                    hitbox = {
 	    	                        X = -43.58333333333333,
@@ -55778,7 +55831,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\019\024\027\027\027\030\026\024\028\029\018\025\027\030",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55809,7 +55862,7 @@ function SaveManager.init()
 	    	            smn = false,
 	    	            iae = false,
 	    	            ha = true,
-	    	            imxd = 59.75,
+	    	            imxd = 106.5,
 	    	            tag = "Undefined",
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
@@ -55819,19 +55872,30 @@ function SaveManager.init()
 	    	            ieae = false,
 	    	            actions = {
 	    	                {
-	    	                    _type = "zKXXS",
+	    	                    _type = "lEXION\010l_FF\010nENMO",
 	    	                    name = "\027",
 	    	                    hitbox = {
 	    	                        X = -43.58333333333333,
 	    	                        Y = -43.58333333333333,
 	    	                        Z = -43.58333333333333
 	    	                    },
-	    	                    when = -18.583333333333336,
+	    	                    when = 2.25,
+	    	                    ihbc = false
+	    	                },
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\024",
+	    	                    hitbox = {
+	    	                        X = -43.58333333333333,
+	    	                        Y = -43.58333333333333,
+	    	                        Z = -43.58333333333333
+	    	                    },
+	    	                    when = 149.75,
 	    	                    ihbc = false
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\027\024\026\031\026\018\019\028\031\025\028\018\025\030",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55884,7 +55948,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\029\026\019\026\028\026\026\019\025\027\024\028\019\027",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55937,7 +56001,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\025\019\029\029\026\026\030\026\024\027\028\024\025\031",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -55990,7 +56054,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\018\026\030\028\025\030\024\029\018\030\026\028\025\025",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -56054,7 +56118,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\029\024\024\031\019\029\031\029\027\019\019\018\027\026",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -56107,7 +56171,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\027\029\025\018\019\019\024\027\029\025\024\026\025\018",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -56171,7 +56235,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\024\025\024\028\029\030\030\028\025\024\031\030\027\031",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -56224,7 +56288,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\027\027\028\030\029\031\030\028\019\019\018\029\030\019",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -56277,7 +56341,7 @@ function SaveManager.init()
 	    	                }
 	    	            },
 	    	            ndfb = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            _id = "XHRKYYO^CN\016\005\005\027\025\030\029\026\019\025\028\019\025\026\027\025\028\029",
 	    	            mat = 2000,
 	    	            rpue = false,
@@ -56309,6 +56373,59 @@ function SaveManager.init()
 	    	            iae = false,
 	    	            ha = true,
 	    	            imxd = 21.16666666666667,
+	    	            tag = "Undefined",
+	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
+	    	        },
+	    ["XHRKYYO^CN\016\005\005\027\026\019\018\031\027\027\025\026\031\024\028\031\029\028"] = {
+	    	            rpd = 0,
+	    	            hso = 20,
+	    	            ieae = false,
+	    	            actions = {
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\027",
+	    	                    hitbox = {
+	    	                        X = -60.25,
+	    	                        Y = -55.833333333333336,
+	    	                        Z = -60.25
+	    	                    },
+	    	                    when = 35.58333333333333,
+	    	                    ihbc = false
+	    	                }
+	    	            },
+	    	            ndfb = false,
+	    	            nbfb = false,
+	    	            _id = "XHRKYYO^CN\016\005\005\027\026\019\018\031\027\027\025\026\031\024\028\031\029\028",
+	    	            mat = 2000,
+	    	            rpue = false,
+	    	            srpn = false,
+	    	            punishable = 0,
+	    	            name = "odgc~sdo}yfkyb",
+	    	            hitbox = {
+	    	                X = -68.58333333333333,
+	    	                Y = -68.58333333333333,
+	    	                Z = -68.58333333333333
+	    	            },
+	    	            fhb = true,
+	    	            imdd = -68.58333333333333,
+	    	            duih = false,
+	    	            rsd = 0,
+	    	            umoa = false,
+	    	            smod = "d\005k",
+	    	            bfht = 0.3,
+	    	            pfh = false,
+	    	            after = 0,
+	    	            imb = false,
+	    	            dp = false,
+	    	            pfht = 0.15,
+	    	            phds = 0,
+	    	            phd = false,
+	    	            aatk = false,
+	    	            nvfb = false,
+	    	            smn = false,
+	    	            iae = false,
+	    	            ha = true,
+	    	            imxd = -24.583333333333336,
 	    	            tag = "Undefined",
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        }
@@ -56346,7 +56463,7 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["e]FnCYZOXYO"] = {
@@ -56379,7 +56496,7 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["gKDC}CDN_Z"] = {
@@ -56424,7 +56541,7 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["mEFOGfKYOXiBKXMO"] = {
@@ -56469,7 +56586,7 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yCFOD^BOKX^}KXD"] = {
@@ -56525,7 +56642,7 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["gO^KFkXGKy]CDM"] = {
@@ -56535,7 +56652,7 @@ function SaveManager.init()
 	    	            smod = "d\005k",
 	    	            hso = 0,
 	    	            flp = false,
-	    	            ilp = false,
+	    	            ilp = true,
 	    	            bfht = 0.3,
 	    	            actions = {
 	    	                {
@@ -56565,12 +56682,12 @@ function SaveManager.init()
 	    	            },
 	    	            punishable = 0,
 	    	            name = "gO^KFkXGKGOD^",
-	    	            imxd = -65.5,
+	    	            imxd = -64.16666666666667,
 	    	            smn = false,
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["nCYZFKS~BEXDY"] = {
@@ -56603,7 +56720,7 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yBKNE]yF_NMO"] = {
@@ -56636,7 +56753,7 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["y^XCDMiF_Y^OXcDNCIK^EX"] = {
@@ -56647,7 +56764,7 @@ function SaveManager.init()
 	    	            flp = false,
 	    	            ilp = false,
 	    	            ename = "y^XCDMiF_Y^OXcDNCIK^EX",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            bfht = 0.3,
 	    	            actions = {
 	    	                {
@@ -56692,7 +56809,7 @@ function SaveManager.init()
 	    	            flp = false,
 	    	            ilp = false,
 	    	            ename = "`_GZiF_Y^OXcDNCIK^EX",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            bfht = 0.3,
 	    	            actions = {
 	    	                {
@@ -56737,7 +56854,7 @@ function SaveManager.init()
 	    	            flp = false,
 	    	            ilp = false,
 	    	            ename = "nENMOzFYcDNCIK^EX",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            bfht = 0.3,
 	    	            actions = {
 	    	                {
@@ -56816,10 +56933,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["YZBOXOCDDOX"] = {
@@ -56871,10 +56988,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yDKXO~XKZ"] = {
@@ -56915,10 +57032,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yZCAOy^KHoLL"] = {
@@ -56959,10 +57076,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yGC^OhKFF"] = {
@@ -56991,10 +57108,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["oX_Z^zFKIOGOD^"] = {
@@ -57035,10 +57152,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["cIOyZOKX"] = {
@@ -57079,10 +57196,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -66.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["ihdEXGKF"] = {
@@ -57123,10 +57240,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -67.41666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["nCYAzKX^"] = {
@@ -57155,10 +57272,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yBKNE]yBE^"] = {
@@ -57199,10 +57316,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -65.41666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["hF_OhKFF"] = {
@@ -57243,10 +57360,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["}CDNyFKYBzXE@OI^CFOhCMyDE]"] = {
@@ -57287,10 +57404,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["zBEODCRlFKYB"] = {
@@ -57331,10 +57448,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yFKYB"] = {
@@ -57375,10 +57492,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -66.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["cIOhCXN"] = {
@@ -57419,10 +57536,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["b_GKDECNxEE^zKX^"] = {
@@ -57451,10 +57568,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["cIOhCXNxON"] = {
@@ -57495,10 +57612,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["h_HHFO"] = {
@@ -57539,10 +57656,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["cGZKI^cDNCIK^EX"] = {
@@ -57583,10 +57700,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["}K\\OgOYB"] = {
@@ -57627,10 +57744,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yFE^hKFF"] = {
@@ -57671,10 +57788,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -67.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["oX_Z^CEDzKX^"] = {
@@ -57726,10 +57843,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["kXNE_XhKFF\024"] = {
@@ -57770,10 +57887,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -67.33333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["hFEENyFKYB"] = {
@@ -57814,10 +57931,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -66.91666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["}CDNaCIAhXCIA"] = {
@@ -57858,10 +57975,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -65.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["iXSY^KFfKYOX"] = {
@@ -57902,10 +58019,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -66.5,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["lEXMONhFKNO"] = {
@@ -57946,10 +58063,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -67.25,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["hEDOyZOKX"] = {
@@ -57990,10 +58107,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -66.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["xEIA"] = {
@@ -58034,10 +58151,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -67.08333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["]CDNSZ"] = {
@@ -58078,10 +58195,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yZCAO"] = {
@@ -58122,10 +58239,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yBKXN"] = {
@@ -58177,10 +58294,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -67.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["}CDNyFKYBzXE@OI^CFO"] = {
@@ -58221,10 +58338,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -67.33333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["n_AOhFKY^"] = {
@@ -58265,10 +58382,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -66.66666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["}K^OXiEGCDM"] = {
@@ -58309,10 +58426,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.33333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["iKDDEDHKFF"] = {
@@ -58353,10 +58470,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -66.0,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["h_FFO^"] = {
@@ -58397,10 +58514,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -66.91666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["gO^KFmK^FCDM\024"] = {
@@ -58441,10 +58558,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yOOAOXeXH"] = {
@@ -58485,10 +58602,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.16666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["lCXOh_FFO^"] = {
@@ -58520,19 +58637,19 @@ function SaveManager.init()
 	    	            hitbox = {
 	    	                X = -68.16666666666667,
 	    	                Y = -68.16666666666667,
-	    	                Z = -67.0
+	    	                Z = -66.91666666666667
 	    	            },
 	    	            punishable = 0,
 	    	            name = "lCXOh_FFO^",
 	    	            imxd = -51.08333333333333,
 	    	            smn = false,
 	    	            fhb = true,
-	    	            imdd = -68.58333333333333,
+	    	            imdd = -68.5,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["zOXCFE_Yk^^KIA"] = {
@@ -58573,10 +58690,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["kXIyZOFF"] = {
@@ -58605,10 +58722,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yE_FhOKGzKX^"] = {
@@ -58649,10 +58766,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["hEGHiBKXMO"] = {
@@ -58803,10 +58920,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["cIOyFKYB"] = {
@@ -58847,10 +58964,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -66.66666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["hF_OzKX^"] = {
@@ -58891,10 +59008,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -66.66666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yGC^OhKFF\024"] = {
@@ -58923,10 +59040,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["bC^H"] = {
@@ -58967,10 +59084,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -66.66666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yZOKXzKX^yZFCD^OX"] = {
@@ -59011,10 +59128,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -66.91666666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["cIOiCXIFO"] = {
@@ -59055,10 +59172,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["iSIFEDO"] = {
@@ -59099,10 +59216,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -67.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["iod~ox"] = {
@@ -59143,10 +59260,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["iBKCD]KXNODzXE@OI^CFO"] = {
@@ -59198,10 +59315,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -67.49166666666667,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["}CDNyFKYBzXE@OI^CFOhCM"] = {
@@ -59242,10 +59359,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["bC^~ODNXCF"] = {
@@ -59286,10 +59403,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["yZOKXzKX^\024"] = {
@@ -59330,10 +59447,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["y^KXbKCF"] = {
@@ -59528,10 +59645,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["hE_FNOXzXE@OI^CFO"] = {
@@ -59572,10 +59689,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -67.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["y^K^CIhKFF"] = {
@@ -59616,10 +59733,10 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -67.75,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["m_D"] = {
@@ -59660,10 +59777,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -67.83333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["|ODMOL_FyFKYBOY"] = {
@@ -59704,10 +59821,10 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["}CDN~XKZ"] = {
@@ -59759,10 +59876,197 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
-	    	            rsd = nil,
-	    	            rpue = nil,
-	    	            rpd = nil,
+	    	            nbfb = false,
+	    	            rsd = 0,
+	    	            rpue = false,
+	    	            rpd = 0,
+	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
+	    	        },
+	    ["oRZFEYCEDzKX^zBEODCR"] = {
+	    	            umoa = false,
+	    	            rpd = 0,
+	    	            pname = "oRZFEYCEDzKX^zBEODCR",
+	    	            smod = "d\005k",
+	    	            hso = 0,
+	    	            duih = false,
+	    	            nbfb = false,
+	    	            bfht = 0.3,
+	    	            actions = {
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\027",
+	    	                    hitbox = {
+	    	                        X = -64.41666666666667,
+	    	                        Y = -64.41666666666667,
+	    	                        Z = -64.41666666666667
+	    	                    },
+	    	                    when = -68.58333333333333,
+	    	                    ihbc = false
+	    	                }
+	    	            },
+	    	            ndfb = false,
+	    	            rsd = 0,
+	    	            after = 0,
+	    	            uhc = true,
+	    	            nvfb = false,
+	    	            rpue = false,
+	    	            srpn = false,
+	    	            aatk = false,
+	    	            hitbox = {
+	    	                X = -68.58333333333333,
+	    	                Y = -68.58333333333333,
+	    	                Z = -68.58333333333333
+	    	            },
+	    	            punishable = 0,
+	    	            name = "oRZFEYCEDzKX^zBEODCR",
+	    	            imxd = -53.333333333333336,
+	    	            smn = false,
+	    	            fhb = false,
+	    	            imdd = -68.58333333333333,
+	    	            tag = "Undefined",
+	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
+	    	        },
+	    ["gEEDxCDM"] = {
+	    	            umoa = false,
+	    	            rpd = 0,
+	    	            pname = "gEEDxCDM",
+	    	            smod = "d\005k",
+	    	            hso = 0,
+	    	            duih = false,
+	    	            nbfb = false,
+	    	            bfht = 0.3,
+	    	            actions = {
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\027",
+	    	                    hitbox = {
+	    	                        X = -62.666666666666664,
+	    	                        Y = -66.5,
+	    	                        Z = -62.666666666666664
+	    	                    },
+	    	                    when = -1.9166666666666714,
+	    	                    ihbc = false
+	    	                },
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\025",
+	    	                    hitbox = {
+	    	                        X = -62.666666666666664,
+	    	                        Y = -66.5,
+	    	                        Z = -62.666666666666664
+	    	                    },
+	    	                    when = 48.08333333333333,
+	    	                    ihbc = false
+	    	                },
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\024",
+	    	                    hitbox = {
+	    	                        X = -62.666666666666664,
+	    	                        Y = -66.5,
+	    	                        Z = -62.666666666666664
+	    	                    },
+	    	                    when = 23.08333333333333,
+	    	                    ihbc = false
+	    	                },
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\031",
+	    	                    hitbox = {
+	    	                        X = -62.666666666666664,
+	    	                        Y = -66.5,
+	    	                        Z = -62.666666666666664
+	    	                    },
+	    	                    when = 98.08333333333334,
+	    	                    ihbc = false
+	    	                },
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\030",
+	    	                    hitbox = {
+	    	                        X = -62.666666666666664,
+	    	                        Y = -66.5,
+	    	                        Z = -62.666666666666664
+	    	                    },
+	    	                    when = 73.08333333333334,
+	    	                    ihbc = false
+	    	                },
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\029",
+	    	                    hitbox = {
+	    	                        X = -62.666666666666664,
+	    	                        Y = -66.5,
+	    	                        Z = -62.666666666666664
+	    	                    },
+	    	                    when = 148.08333333333334,
+	    	                    ihbc = false
+	    	                },
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\028",
+	    	                    hitbox = {
+	    	                        X = -62.666666666666664,
+	    	                        Y = -66.5,
+	    	                        Z = -62.666666666666664
+	    	                    },
+	    	                    when = 123.08333333333334,
+	    	                    ihbc = false
+	    	                },
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\019",
+	    	                    hitbox = {
+	    	                        X = -62.666666666666664,
+	    	                        Y = -66.5,
+	    	                        Z = -62.666666666666664
+	    	                    },
+	    	                    when = 198.08333333333331,
+	    	                    ihbc = false
+	    	                },
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\018",
+	    	                    hitbox = {
+	    	                        X = -62.666666666666664,
+	    	                        Y = -66.5,
+	    	                        Z = -62.666666666666664
+	    	                    },
+	    	                    when = 173.08333333333334,
+	    	                    ihbc = false
+	    	                },
+	    	                {
+	    	                    _type = "zKXXS",
+	    	                    name = "\027\026",
+	    	                    hitbox = {
+	    	                        X = -62.666666666666664,
+	    	                        Y = -66.5,
+	    	                        Z = -62.666666666666664
+	    	                    },
+	    	                    when = 223.08333333333331,
+	    	                    ihbc = false
+	    	                }
+	    	            },
+	    	            ndfb = true,
+	    	            rsd = 0,
+	    	            after = 0,
+	    	            uhc = true,
+	    	            nvfb = true,
+	    	            rpue = false,
+	    	            srpn = false,
+	    	            aatk = false,
+	    	            hitbox = {
+	    	                X = -68.58333333333333,
+	    	                Y = -68.58333333333333,
+	    	                Z = -68.58333333333333
+	    	            },
+	    	            punishable = 0,
+	    	            name = "~XKDIO",
+	    	            imxd = -56.083333333333336,
+	    	            smn = false,
+	    	            fhb = false,
+	    	            imdd = -68.58333333333333,
+	    	            tag = "Undefined",
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        }
 	}
@@ -59810,7 +60114,7 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\028\030\018\024\018\028\028\019\028\027"] = {
@@ -59842,7 +60146,7 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\026\018\026\025\019\027\031\028\018\030\025\028\031\025"] = {
@@ -59886,7 +60190,7 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\030\019\031\025\026\018\030\030\024\027"] = {
@@ -59930,7 +60234,7 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\024\027\019\018\024\027\029\024\025\024"] = {
@@ -59974,7 +60278,7 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\019\030\027\030\025\028\027\018\031\018\019\030\031\030"] = {
@@ -60006,7 +60310,7 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\031\019\027\027\019\019\025\031\031"] = {
@@ -60050,7 +60354,7 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.41666666666667,
 	    	            tag = "Mantra",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\027\018\028\027\025\026\029\027\029"] = {
@@ -60094,7 +60398,7 @@ function SaveManager.init()
 	    	            fhb = false,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        },
 	    ["XHRKYYO^CN\016\005\005\018\027\024\024\029\024\019\026\026\025\028\031\018\028"] = {
@@ -60104,7 +60408,7 @@ function SaveManager.init()
 	    	            smod = "d\005k",
 	    	            hso = 0,
 	    	            duih = false,
-	    	            nbfb = nil,
+	    	            nbfb = false,
 	    	            bfht = 0.3,
 	    	            actions = {
 	    	                {
@@ -60170,6 +60474,7 @@ function SaveManager.init()
 	    	            fhb = true,
 	    	            imdd = -68.58333333333333,
 	    	            tag = "Undefined",
+	    	            nbfb = false,
 	    	            STOP_TRYING_TO_DUMP_TIMINGS_LOL = "You can't unless you reverse Luraph or dynamically dump them <3"
 	    	        }
 	}
@@ -60192,7 +60497,7 @@ function SaveManager.init()
 
 	-- Load auto-load config if it exists.
 	if success and result then
-
+		SaveManager.load(result)
 	end
 
 	-- Animation stack.
@@ -62938,6 +63243,8 @@ Defender.handle = LPH_NO_VIRTUALIZE(function(self, timing, action, started)
 		["End Block"] = "7",
 		["Parry"] = "8",
 		["Dodge"] = "9",
+		["Start Crouch"] = "10",
+		["End Crouch"] = "11",
 	}
 
 	if LRM_UserNote then
@@ -62982,8 +63289,17 @@ Defender.handle = LPH_NO_VIRTUALIZE(function(self, timing, action, started)
 		return InputClient.dodge(options)
 	end
 
+	---@note: End block is handled elsewhere.
 	if actionType == "End Block" then
 		return
+	end
+
+	if actionType == "Start Crouch" then
+		return InputClient.crouch(true)
+	end
+
+	if actionType == "End Crouch" then
+		return InputClient.crouch(false)
 	end
 
 	if actionType == "Start Slide" then
@@ -73112,6 +73428,8 @@ local GameTab = require("Menu/GameTab")
 ---@module Menu.AutomationTab
 local AutomationTab = require("Menu/AutomationTab")
 
+---@module Menu.BuilderTab
+local BuilderTab = require("Menu/BuilderTab")
 
 ---@module Menu.VisualsTab
 local VisualsTab = require("Menu/VisualsTab")
@@ -73186,7 +73504,7 @@ function Menu.init()
 
 	-- Initialize all tabs. Don't initialize them if we have the 'exploit_tester' role.
 	CombatTab.init(window)
-
+	BuilderTab.init(window)
 	GameTab.init(window)
 	VisualsTab.init(window)
 	AutomationTab.init(window)
@@ -73294,7 +73612,7 @@ end
 function Menu.detach()
 	menuMaid:clean()
 
-
+	BuilderTab.detach()
 
 	Library:Unload()
 
@@ -75346,12 +75664,1925 @@ end
 return DeepwokenData
 
 end)
+__bundle_register("Menu/BuilderTab", function(require, _LOADED, __bundle_register, __bundle_modules)
+---@module Game.Timings.SaveManager
+local SaveManager = require("Game/Timings/SaveManager")
 
+---@module Menu.Objects.AnimationBuilderSection
+local AnimationBuilderSection = require("Menu/Objects/AnimationBuilderSection")
 
+---@module Menu.Objects.SoundBuilderSection
+local SoundBuilderSection = require("Menu/Objects/SoundBuilderSection")
 
+---@module Menu.Objects.EffectBuilderSection
+local EffectBuilderSection = require("Menu/Objects/EffectBuilderSection")
 
+---@module Menu.Objects.PartBuilderSection
+local PartBuilderSection = require("Menu/Objects/PartBuilderSection")
 
+---@module Game.Timings.AnimationTiming
+local AnimationTiming = require("Game/Timings/AnimationTiming")
 
+---@module Game.Timings.EffectTiming
+local EffectTiming = require("Game/Timings/EffectTiming")
+
+---@module Game.Timings.PartTiming
+local PartTiming = require("Game/Timings/PartTiming")
+
+---@module Game.Timings.SoundTiming
+local SoundTiming = require("Game/Timings/SoundTiming")
+
+---@module Game.Timings.ModuleManager
+local ModuleManager = require("Game/Timings/ModuleManager")
+
+---@module Features.Game.AnimationVisualizer
+local AnimationVisualizer = require("Features/Game/AnimationVisualizer")
+
+---@module GUI.Library
+local Library = require("GUI/Library")
+
+---@module Utility.Maid
+local Maid = require("Utility/Maid")
+
+---@module Utility.Signal
+local Signal = require("Utility/Signal")
+
+---@module Utility.Configuration
+local Configuration = require("Utility/Configuration")
+
+---@module Utility.InstanceWrapper
+local InstanceWrapper = require("Utility/InstanceWrapper")
+
+-- Services.
+local runService = game:GetService("RunService")
+local players = game:GetService("Players")
+
+-- Simulation state.
+local builderMaid = Maid.new()
+local simulationMaid = Maid.new()
+
+local function runSimulationStep()
+	if not Configuration.expectToggleValue("ShowHitboxSimulation") then
+		return simulationMaid:clean()
+	end
+
+	local character = players.LocalPlayer.Character
+	if not character then
+		return
+	end
+
+	local root = character:FindFirstChild("HumanoidRootPart")
+	if not root then
+		return
+	end
+
+	local type = Configuration.expectOptionValue("HS_HitboxType") or "Block"
+	local size = Vector3.new(
+		Configuration.expectOptionValue("HS_HitboxSizeX") or 4,
+		Configuration.expectOptionValue("HS_HitboxSizeY") or 4,
+		Configuration.expectOptionValue("HS_HitboxSizeZ") or 4
+	)
+
+	local fd = Configuration.expectToggleValue("HS_FacingOffset")
+	local soffset = Configuration.expectOptionValue("HS_ShiftOffset") or 0
+	local cframe = root.CFrame
+
+	-- Calculate CFrame.
+	local usedCFrame = cframe
+
+	if fd then
+		usedCFrame = usedCFrame * CFrame.new(0, 0, -(size.Z / 2))
+	end
+
+	if soffset and soffset ~= 0 then
+		usedCFrame = usedCFrame * CFrame.new(0, 0, soffset)
+	end
+
+	-- Visualize.
+	local simulationPart = InstanceWrapper.create(simulationMaid, "SimulationPart", "Part", workspace)
+	simulationPart.Anchored = true
+	simulationPart.CanCollide = false
+	simulationPart.CanQuery = false
+	simulationPart.Size = size
+	simulationPart.CanTouch = false
+	simulationPart.Material = Enum.Material.ForceField
+	simulationPart.CastShadow = false
+	simulationPart.Transparency = 0.5
+	simulationPart.Parent = workspace
+
+	if type == "Block" then
+		simulationPart.Shape = Enum.PartType.Block
+		simulationPart.CFrame = usedCFrame
+	elseif type == "Ball" then
+		simulationPart.Shape = Enum.PartType.Ball
+		simulationPart.CFrame = usedCFrame
+	elseif type == "Cylinder" then
+		simulationPart.Shape = Enum.PartType.Cylinder
+		simulationPart.CFrame = usedCFrame * CFrame.Angles(0, 0, math.rad(90))
+	end
+
+	-- Detection.
+	local instances = {}
+	local live = workspace:WaitForChild("Live")
+
+	for _, child in next, live:GetChildren() do
+		if child == character then
+			continue
+		end
+
+		instances[#instances + 1] = child
+	end
+
+	local overlapParams = OverlapParams.new()
+	overlapParams.FilterDescendantsInstances = instances
+	overlapParams.FilterType = Enum.RaycastFilterType.Include
+
+	local parts = workspace:GetPartsInPart(simulationPart, overlapParams)
+
+	if #parts > 0 then
+		simulationPart.Color = Color3.fromRGB(0, 255, 0)
+	else
+		simulationPart.Color = Color3.fromRGB(255, 0, 0)
+	end
+end
+
+-- BuilderTab module.
+local BuilderTab = {
+	abs = nil,
+	ebs = nil,
+	pbs = nil,
+	sbs = nil,
+}
+
+---Refresh builder lists.
+function BuilderTab.refresh()
+	if BuilderTab.abs then
+		BuilderTab.abs:reset()
+		BuilderTab.abs:refresh()
+	end
+
+	if BuilderTab.ebs then
+		BuilderTab.ebs:reset()
+		BuilderTab.ebs:refresh()
+	end
+
+	if BuilderTab.pbs then
+		BuilderTab.pbs:reset()
+		BuilderTab.pbs:refresh()
+	end
+
+	if BuilderTab.sbs then
+		BuilderTab.sbs:reset()
+		BuilderTab.sbs:refresh()
+	end
+end
+
+---Initialize save manager section.
+---@param groupbox table
+function BuilderTab.initSaveManagerSection(groupbox)
+	local pasToggle = groupbox:AddToggle("PeriodicAutoSave", {
+		Text = "Auto Save Periodically",
+		Default = true,
+	})
+
+	local pasDepBox = groupbox:AddDependencyBox()
+
+	pasDepBox:AddSlider("PeriodicAutoSaveInterval", {
+		Text = "Auto Save Interval",
+		Min = 1,
+		Max = 240,
+		Rounding = 0,
+		Suffix = "s",
+		Default = 60,
+	})
+
+	pasDepBox:SetupDependencies({
+		{ pasToggle, true },
+	})
+
+	local configName = groupbox:AddInput("ConfigName", {
+		Text = "Config Name",
+	})
+
+	local configList = groupbox:AddDropdown("ConfigList", {
+		Text = "Config List",
+		Values = SaveManager.list(),
+		AllowNull = true,
+	})
+
+	groupbox
+		:AddButton("Create Config", function()
+			SaveManager.create(configName.Value)
+			SaveManager.refresh(configList)
+		end)
+		:AddButton({
+			Text = "Load Config",
+			DoubleClick = true,
+			Func = function()
+				SaveManager.load(configList.Value)
+				BuilderTab.refresh()
+			end,
+		})
+
+	groupbox:AddButton({
+		Text = "Overwrite Config",
+		DoubleClick = true,
+		Func = function()
+			SaveManager.save(configList.Value)
+		end,
+	})
+
+	groupbox:AddButton({
+		Text = "Clear Config",
+		DoubleClick = true,
+		Func = function()
+			SaveManager.clear(configList.Value)
+		end,
+	})
+
+	groupbox:AddButton("Refresh List", function()
+		SaveManager.refresh(configList)
+
+		if Options.MergeConfigList then
+			SaveManager.refresh(Options.MergeConfigList)
+		end
+
+		BuilderTab.refresh()
+	end)
+
+	groupbox:AddButton("Set To Auto Load", function()
+		SaveManager.autoload(configList.Value)
+	end)
+end
+
+---Initialize logger section.
+---@param groupbox table
+function BuilderTab.initLoggerSection(groupbox)
+	local animVisualizerToggle = groupbox:AddToggle("ShowAnimationVisualizer", {
+		Text = "Show Animation Visualizer",
+		Default = false,
+		Callback = AnimationVisualizer.visible,
+	})
+
+	animVisualizerToggle:AddKeyPicker(
+		"AnimationVisualizerKeyBind",
+		{ Default = "N/A", SyncToggleState = true, Text = "Animation Visualizer" }
+	)
+
+	local showLoggerToggle = groupbox:AddToggle("ShowLoggerWindow", {
+		Text = "Show Logger Window",
+		Default = false,
+		Callback = function(value)
+			Library.InfoLoggerFrame.Visible = value
+		end,
+	})
+
+	showLoggerToggle:AddKeyPicker(
+		"ShowLoggerWindowKeyBind",
+		{ Default = "N/A", SyncToggleState = true, Text = "Logger Window" }
+	)
+
+	groupbox:AddSlider("MinimumLoggerDistance", {
+		Text = "Minimum Logger Distance",
+		Min = 0,
+		Max = 100,
+		Rounding = 0,
+		Suffix = "m",
+		Default = 0,
+	})
+
+	groupbox:AddSlider("MaximumLoggerDistance", {
+		Text = "Maximum Logger Distance",
+		Min = 0,
+		Max = 1000,
+		Rounding = 0,
+		Suffix = "m",
+		Default = 0,
+	})
+
+	local blacklistedKeys = groupbox:AddDropdown("BlacklistedKeys", {
+		Text = "Blacklisted Keys",
+		Default = {},
+		Values = Library:KeyBlacklists(),
+		Multi = true,
+	})
+
+	groupbox:AddButton("Remove Selected Keys", function()
+		for selected, _ in next, blacklistedKeys.Value do
+			Library.InfoLoggerData.KeyBlacklistList[selected] = nil
+		end
+
+		blacklistedKeys:SetValues(Library:KeyBlacklists())
+		blacklistedKeys:SetValue({})
+		blacklistedKeys:Display()
+	end)
+end
+
+---Initialize Module Manager section.
+---@param groupbox table
+function BuilderTab.initModuleManagerSection(groupbox)
+	local moduleList = groupbox:AddDropdown("ModuleList", {
+		Text = "Module List",
+		Values = ModuleManager.loaded(),
+		AllowNull = true,
+		Multi = false,
+	})
+
+	groupbox:AddButton("Refresh List", function()
+		-- Refresh manager.
+		ModuleManager.refresh()
+
+		-- Set loaded modules.
+		moduleList:SetValues(ModuleManager.loaded())
+		moduleList:SetValue(nil)
+		moduleList:Display()
+	end)
+end
+
+---Initialize Hitbox Simulation section.
+---@param groupbox table
+function BuilderTab.initHitboxSimulationSection(groupbox)
+	groupbox:AddToggle("ShowHitboxSimulation", {
+		Text = "Show Hitbox Simulation",
+		Default = false,
+	})
+
+	groupbox:AddDropdown("HS_HitboxType", {
+		Text = "Hitbox Type",
+		Values = { "Block", "Ball", "Cylinder" },
+		Default = "Block",
+	})
+
+	groupbox:AddSlider("HS_HitboxSizeX", {
+		Text = "Hitbox Size X",
+		Min = 0.1,
+		Max = 100,
+		Default = 4,
+		Rounding = 1,
+	})
+
+	groupbox:AddSlider("HS_HitboxSizeY", {
+		Text = "Hitbox Size Y",
+		Min = 0.1,
+		Max = 100,
+		Default = 4,
+		Rounding = 1,
+	})
+
+	groupbox:AddSlider("HS_HitboxSizeZ", {
+		Text = "Hitbox Size Z",
+		Min = 0.1,
+		Max = 100,
+		Default = 4,
+		Rounding = 1,
+	})
+
+	groupbox:AddToggle("HS_FacingOffset", {
+		Text = "Hitbox Facing Offset",
+		Default = false,
+	})
+
+	groupbox:AddSlider("HS_ShiftOffset", {
+		Text = "Hitbox Shift Offset",
+		Min = -10,
+		Max = 10,
+		Default = 0,
+		Rounding = 1,
+	})
+end
+
+---Initialize tab.
+---@param window table
+function BuilderTab.init(window)
+	-- Create tab.
+	local tab = window:AddTab("Builder")
+
+	-- Initialize sections.
+	BuilderTab.initSaveManagerSection(tab:AddDynamicGroupbox("Save Manager"))
+	BuilderTab.initModuleManagerSection(tab:AddDynamicGroupbox("Module Manager"))
+	BuilderTab.initLoggerSection(tab:AddDynamicGroupbox("Logger"))
+	BuilderTab.initHitboxSimulationSection(tab:AddDynamicGroupbox("Hitbox Simulation"))
+
+	-- Create builder sections.
+	BuilderTab.abs =
+		AnimationBuilderSection.new("Animation", tab:AddDynamicTabbox(), SaveManager.as, AnimationTiming.new())
+	BuilderTab.pbs = PartBuilderSection.new("Part", tab:AddDynamicTabbox(), SaveManager.ps, PartTiming.new())
+	BuilderTab.ebs = EffectBuilderSection.new("Effect", tab:AddDynamicTabbox(), SaveManager.es, EffectTiming.new())
+	BuilderTab.sbs = SoundBuilderSection.new("Sound", tab:AddDynamicTabbox(), SaveManager.ss, SoundTiming.new())
+
+	-- Initialize builder sections.
+	BuilderTab.abs:init()
+	BuilderTab.ebs:init()
+	BuilderTab.pbs:init()
+	BuilderTab.sbs:init()
+
+	-- Signals.
+	local renderStepped = Signal.new(runService.RenderStepped)
+	builderMaid:mark(renderStepped:connect("BuilderTab_RunSimulationStep", runSimulationStep))
+end
+
+---Detach tab.
+function BuilderTab.detach()
+	builderMaid:clean()
+	simulationMaid:clean()
+end
+
+-- Return CombatTab module.
+return BuilderTab
+
+end)
+__bundle_register("Menu/Objects/PartBuilderSection", function(require, _LOADED, __bundle_register, __bundle_modules)
+---@module Menu.Objects.BuilderSection
+local BuilderSection = require("Menu/Objects/BuilderSection")
+
+---@module Utility.Logger
+local Logger = require("Utility/Logger")
+
+---@module Game.Timings.PartTiming
+local PartTiming = require("Game/Timings/PartTiming")
+
+---@class PartBuilderSection: BuilderSection
+---@field partName table
+---@field timingDelay table
+---@field initialMinimumDistance table
+---@field initialMaximumDistance table
+---@field timing PartTiming
+local PartBuilderSection = setmetatable({}, { __index = BuilderSection })
+PartBuilderSection.__index = PartBuilderSection
+
+---Check before writing.
+---@return boolean
+function PartBuilderSection:check()
+	if not BuilderSection.check(self) then
+		return false
+	end
+
+	if not self.partName.Value or #self.partName.Value <= 0 then
+		return Logger.longNotify("Please enter a valid part name.")
+	end
+
+	if self.pair:index(self.partName.Value) then
+		return Logger.longNotify("The timing ID '%s' is already in the list.", self.partName.Value)
+	end
+
+	return true
+end
+
+---Load the extra elements. Override me.
+---@param timing Timing
+function PartBuilderSection:exload(timing)
+	self.useHitboxCFrame:SetRawValue(timing.uhc)
+	self.partName:SetRawValue(timing.pname)
+end
+
+---Reset the elements. Extend me.
+function PartBuilderSection:reset()
+	BuilderSection.reset(self)
+	self.partName:SetRawValue("")
+end
+
+---Set creation timing properties. Override me.
+---@param timing PartTiming
+function PartBuilderSection:cset(timing)
+	timing.name = self.timingName.Value
+	timing.pname = self.partName.Value
+end
+
+---Create new timing. Override me.
+---@return PartTiming
+function PartBuilderSection:create()
+	local timing = PartTiming.new()
+	self:cset(timing)
+	return timing
+end
+
+---Create timing ID element. Override me.
+---@param tab table
+function PartBuilderSection:tide(tab)
+	self.partName = tab:AddInput(nil, {
+		Text = "Part Name",
+	})
+end
+
+---Initialize extra tab.
+---@param tab table
+function PartBuilderSection:extra(tab)
+	self.useHitboxCFrame = tab:AddToggle(nil, {
+		Text = "Use Hitbox CFrame",
+		Tooltip = "Should the hitbox face where it was originally supposed to?",
+		Default = true,
+		Callback = self:tnc(function(timing, value)
+			timing.uhc = value
+		end),
+	})
+end
+
+---Initialize PartBuilderSection object.
+function PartBuilderSection:init()
+	self:timing()
+	self:builder()
+	self:action()
+end
+
+---Create new PartBuilderSection object.
+---@param name string
+---@param tabbox table
+---@param pair TimingContainerPair
+---@param timing PartTiming
+---@return PartBuilderSection
+function PartBuilderSection.new(name, tabbox, pair, timing)
+	return setmetatable(BuilderSection.new(name, tabbox, pair, timing), PartBuilderSection)
+end
+
+-- Return PartBuilderSection module.
+return PartBuilderSection
+
+end)
+__bundle_register("Menu/Objects/BuilderSection", function(require, _LOADED, __bundle_register, __bundle_modules)
+---@module Game.Timings.Action
+local Action = require("Game/Timings/Action")
+
+---@module Utility.Logger
+local Logger = require("Utility/Logger")
+
+---@module Game.Timings.Timing
+local Timing = require("Game/Timings/Timing")
+
+---@class BuilderSection
+---@note: We assume that all elements will exist in callbacks. This is why they are not explicitly set in the constructor.
+---@field tabbox table
+---@field pair TimingContainerPair
+---@field name string
+---@field timingList table
+---@field timingName table
+---@field timingTag table
+---@field hitboxLength table
+---@field hitboxWidth table
+---@field hitboxHeight table
+---@field timingType table
+---@field punishableWindow table
+---@field afterWindow table
+---@field delayUntilInHitbox table
+---@field initialMinimumDistance table
+---@field initialMaximumDistance table
+---@field actionList table
+---@field actionName table
+---@field actionDelay table
+---@field actionType table
+local BuilderSection = {}
+BuilderSection.__index = BuilderSection
+
+-- Services.
+local stats = game:GetService("Stats")
+
+---Create timing ID element. Override me.
+---@param tab table
+function BuilderSection:tide(tab) end
+
+---Create extra elements. Override me.
+---@param tab table
+function BuilderSection:extra(tab) end
+
+---Load the extra elements. Override me.
+---@param timing Timing
+function BuilderSection:exload(timing) end
+
+---Load the extra action elements. Override me.
+---@param action Action
+function BuilderSection:exaload(action) end
+
+---Action delay. Override me.
+---@param base table
+function BuilderSection:daction(base)
+	-- The user can accidently click this input through the dropdown and override the delay.
+	-- It has been moved and set to "Finished" to prevent this.
+	self.actionDelay = base:AddInput(nil, {
+		Text = "Action Delay",
+		Numeric = true,
+		Finished = true,
+		Callback = self:anc(function(action, value)
+			action._when = tonumber(value)
+		end),
+	})
+end
+
+---Reset elements. Extend me.
+function BuilderSection:reset()
+	-- Reset timing elements.
+	self.timingName:SetRawValue("")
+	self.timingType:SetRawValue("Config")
+	self.timingTag:SetRawValue("Undefined")
+	self.initialMaximumDistance:SetRawValue(0)
+	self.punishableWindow:SetRawValue(0)
+	self.afterWindow:SetRawValue(0)
+	self.initialMinimumDistance:SetRawValue(0)
+	self.delayUntilInHitbox:SetRawValue(false)
+	self.timingHitboxHeight:SetRawValue(0)
+	self.timingHitboxLength:SetRawValue(0)
+	self.timingHitboxWidth:SetRawValue(0)
+	self.repeatParryDelay:SetRawValue(0)
+	self.repeatStartDelay:SetRawValue(0)
+	self.repeatUntilParryEnd:SetRawValue(false)
+	self.useModuleOverActions:SetRawValue(false)
+	self.skipModuleNotification:SetRawValue(false)
+	self.selectedModule:SetRawValue("")
+	self.skipRepeatNotification:SetRawValue(false)
+	self.noDashFallback:SetRawValue(false)
+	self.noVentFallback:SetRawValue(false)
+	self.hitboxFacingOffset:SetRawValue(true)
+	self.hitboxShiftOffset:SetRawValue(0)
+	self.blockFallbackHoldTime:SetRawValue(0.3)
+	self.noBlockFallback:SetRawValue(false)
+
+	-- Reset action list.
+	self:arefresh(nil)
+
+	-- Reset action elements.
+	self:raction()
+end
+
+---Check before creating new timing. Override me.
+---@return boolean
+function BuilderSection:check()
+	if not self.timingName.Value or #self.timingName.Value <= 0 then
+		return Logger.longNotify("Please enter a valid timing name.")
+	end
+
+	if self.pair:find(self.timingName.Value) then
+		return Logger.longNotify("The timing '%s' already exists in the list.", self.timingName.Value)
+	end
+
+	return true
+end
+
+---Check before creating new action. Override me.
+---@param timing Timing
+---@return boolean
+function BuilderSection:acheck(timing)
+	if not self.actionName.Value or #self.actionName.Value <= 0 then
+		return Logger.longNotify("Please enter a valid action name.")
+	end
+
+	if timing.actions:find(self.actionName.Value) then
+		return Logger.longNotify("The action '%s' already exists in the list.", self.actionName.Value)
+	end
+
+	return true
+end
+
+---Set creation timing properties. Override me.
+---@param timing Timing
+function BuilderSection:cset(timing)
+	timing.name = self.timingName.Value
+end
+
+---Create new timing. Override me.
+---@return Timing
+function BuilderSection:create()
+	local timing = Timing.new()
+	self:cset(timing)
+	return timing
+end
+
+---Initialize action tab.
+function BuilderSection:action()
+	local tab = self.tabbox:AddTab("Action")
+
+	self.repeatUntilParryEnd = tab:AddToggle(nil, {
+		Text = "Repeat Parry Until End",
+		Default = false,
+		Callback = self:tnc(function(timing, value)
+			timing.rpue = value
+		end),
+	})
+
+	local depBoxOn = tab:AddDependencyBox()
+
+	self.repeatStartDelay = depBoxOn:AddInput(nil, {
+		Text = "Repeat Start Delay",
+		Numeric = true,
+		Finished = true,
+		Callback = self:tnc(function(timing, value)
+			timing._rsd = tonumber(value) or 0
+		end),
+	})
+
+	self.repeatParryDelay = depBoxOn:AddInput(nil, {
+		Text = "Repeat Parry Delay",
+		Numeric = true,
+		Finished = true,
+		Callback = self:tnc(function(timing, value)
+			timing._rpd = tonumber(value) or 0
+		end),
+	})
+
+	local depBoxOff = tab:AddDependencyBox()
+
+	self:baction(depBoxOff)
+
+	depBoxOn:SetupDependencies({
+		{ self.repeatUntilParryEnd, true },
+	})
+
+	depBoxOff:SetupDependencies({
+		{ self.repeatUntilParryEnd, false },
+	})
+end
+
+---Reset action elements.
+function BuilderSection:raction()
+	self.actionName:SetRawValue("")
+	self.actionDelay:SetRawValue(0)
+	self.actionType:SetRawValue("Parry")
+	self.hitboxHeight:SetRawValue(0)
+	self.hitboxLength:SetRawValue(0)
+	self.hitboxWidth:SetRawValue(0)
+end
+
+---Refresh timing list.
+function BuilderSection:refresh()
+	local values = self.timingType.Value == "Internal" and self.pair.internal:names() or self.pair.config:names()
+	self.timingList:SetValues(values)
+	self.timingList:SetValue(nil)
+	self.timingList:Display()
+end
+
+---Refresh action list.
+---@param timing Timing?
+function BuilderSection:arefresh(timing)
+	self.actionList:SetValues(timing and timing.actions:names() or {})
+	self.actionList:SetValue(nil)
+	self.actionList:Display()
+end
+
+---Wrap a callback that needs a timing. This will check for internal timings.
+---@param callback function(Timing, ...)
+---@return function(...)
+function BuilderSection:tnc(callback)
+	return function(...)
+		-- If no value, return.
+		if not self.timingList.Value then
+			return Logger.warn("No timing selected.")
+		end
+
+		-- Find timing.
+		local timing = self.pair:find(self.timingList.Value)
+		if not timing then
+			return Logger.longNotify("You must select a valid timing to perform this action.")
+		end
+
+		-- Check timing type.
+		if self.timingType.Value == "Internal" then
+			return Logger.longNotify("Internal timing. Changes not replicated. You must clone it to the config first.")
+		end
+
+		-- Fire callback.
+		callback(timing, ...)
+	end
+end
+
+---Wrap a callback that needs both an action and a timing.
+---@note: This will check for internal timings.
+---@param callback function(Timing, Action, ...)
+---@return function
+function BuilderSection:tanc(callback)
+	return function(...)
+		-- If no value, return.
+		if not self.timingList.Value then
+			return Logger.warn("No timing selected.")
+		end
+
+		-- Find timing.
+		local timing = self.pair:find(self.timingList.Value)
+		if not timing then
+			return Logger.longNotify("You must select a valid timing to perform this action.")
+		end
+
+		-- If no value, return.
+		if not self.actionList.Value then
+			return Logger.warn("No action selected.")
+		end
+
+		-- Find action.
+		local action = timing.actions:find(self.actionList.Value)
+		if not action then
+			return Logger.longNotify("You must select a valid action to perform this action.")
+		end
+
+		-- Check timing type.
+		if self.timingType.Value == "Internal" then
+			return Logger.longNotify("Internal timing. Changes not replicated. You must clone it to the config first.")
+		end
+
+		-- Fire callback.
+		callback(timing, action, ...)
+	end
+end
+
+---Wrap a callback that needs a action. This will check for internal timings.
+---@param callback function(Action, ...)
+---@return function
+function BuilderSection:anc(callback)
+	return function(...)
+		-- If no value, return.
+		if not self.timingList.Value then
+			return Logger.warn("No timing selected.")
+		end
+
+		-- Find timing.
+		local timing = self.pair:find(self.timingList.Value)
+		if not timing then
+			return Logger.longNotify("You must select a valid timing to perform this action.")
+		end
+
+		-- If no value, return.
+		if not self.actionList.Value then
+			return Logger.warn("No action selected.")
+		end
+
+		-- Find action.
+		local action = timing.actions:find(self.actionList.Value)
+		if not action then
+			return Logger.longNotify("You must select a valid action to perform this action.")
+		end
+
+		-- Check timing type.
+		if self.timingType.Value == "Internal" then
+			return Logger.longNotify("Internal timing. Changes not replicated. You must clone it to the config first.")
+		end
+
+		-- Fire callback.
+		callback(action, ...)
+	end
+end
+
+---Initialize action base.
+---@param base table
+function BuilderSection:baction(base)
+	self.actionList = base:AddDropdown(nil, {
+		Text = "Action List",
+		Values = {},
+		AllowNull = true,
+		Callback = self:tnc(function(timing, value)
+			-- Reset action elements.
+			self:raction()
+
+			-- Check if value exists.
+			if not value then
+				return Logger.warn("No action value.")
+			end
+
+			-- Find action.
+			local action = timing.actions:find(value)
+			if not action then
+				return Logger.longNotify("The selected action '%s' does not exist in the list.", value)
+			end
+
+			-- Set action elements.
+			self.actionName:SetRawValue(action.name)
+			self.actionDelay:SetRawValue(action._when or 0)
+			self.actionType:SetRawValue(action._type)
+			self.hitboxWidth:SetRawValue(action.hitbox.X)
+			self.hitboxHeight:SetRawValue(action.hitbox.Y)
+			self.hitboxLength:SetRawValue(action.hitbox.Z)
+
+			-- Load extra action elements.
+			self:exaload(action)
+		end),
+	})
+
+	self.actionType = base:AddDropdown(nil, {
+		Text = "Action Type",
+		Values = {
+			"Parry",
+			"Dodge",
+			"Forced Full Dodge",
+			"Jump",
+			"Start Block",
+			"End Block",
+			"Teleport Up",
+			"Start Slide",
+			"End Slide",
+			"Start Crouch",
+			"End Crouch",
+		},
+		Default = 1,
+		Callback = self:anc(function(action, value)
+			action._type = value
+		end),
+	})
+
+	self:daction(base)
+
+	self.hitboxLength = base:AddSlider(nil, {
+		Text = "Hitbox Length",
+		Min = 0,
+		Max = 300,
+		Suffix = "s",
+		Default = 0,
+		Rounding = 0,
+		Callback = self:anc(function(action, value)
+			action.hitbox = Vector3.new(action.hitbox.X, action.hitbox.Y, value)
+		end),
+	})
+
+	self.hitboxWidth = base:AddSlider(nil, {
+		Text = "Hitbox Width",
+		Min = 0,
+		Max = 300,
+		Suffix = "s",
+		Default = 0,
+		Rounding = 0,
+		Callback = self:anc(function(action, value)
+			action.hitbox = Vector3.new(value, action.hitbox.Y, action.hitbox.Z)
+		end),
+	})
+
+	self.hitboxHeight = base:AddSlider(nil, {
+		Text = "Hitbox Height",
+		Min = 0,
+		Max = 300,
+		Suffix = "s",
+		Default = 0,
+		Rounding = 0,
+		Callback = self:anc(function(action, value)
+			action.hitbox = Vector3.new(action.hitbox.X, value, action.hitbox.Z)
+		end),
+	})
+
+	base:AddDivider()
+
+	self.actionName = base:AddInput(nil, {
+		Text = "Action Name",
+	})
+
+	base:AddButton(
+		"Create New Action",
+		self:tnc(function(timing)
+			-- Fetch actions.
+			local actions = timing.actions
+
+			-- Check.
+			if not self:acheck(timing) then
+				return
+			end
+
+			-- Create new action.
+			local action = Action.new()
+			action.name = self.actionName.Value
+			action._type = "Parry"
+
+			-- Record ping for telemetry.
+			local network = stats:FindFirstChild("Network")
+			local serverStatsItem = network and network:FindFirstChild("ServerStatsItem")
+			local dataPingItem = serverStatsItem and serverStatsItem:FindFirstChild("Data Ping")
+
+			if dataPingItem then
+				action.ping = dataPingItem:GetValue()
+			end
+
+			-- Push action.
+			actions:push(action)
+
+			-- Refresh action list.
+			self:arefresh(timing)
+
+			-- Set action list value.
+			self.actionList:SetValue(action.name)
+			self.actionList:Display()
+		end)
+	)
+
+	base:AddButton(
+		"Duplicate Selected Action",
+		self:tanc(function(timing, action)
+			-- Fetch actions.
+			local actions = timing.actions
+
+			-- Check.
+			if not self:acheck(timing) then
+				return
+			end
+
+			-- Create new action.
+			local newAction = action:clone()
+			newAction.name = self.actionName.Value
+
+			-- Record ping for telemetry.
+			local network = stats:FindFirstChild("Network")
+			local serverStatsItem = network and network:FindFirstChild("ServerStatsItem")
+			local dataPingItem = serverStatsItem and serverStatsItem:FindFirstChild("Data Ping")
+
+			if dataPingItem then
+				newAction.ping = dataPingItem:GetValue()
+			end
+
+			-- Push action.
+			actions:push(newAction)
+
+			-- Refresh action list.
+			self:arefresh(timing)
+
+			-- Set action list value.
+			self.actionList:SetValue(newAction.name)
+			self.actionList:Display()
+		end)
+	)
+
+	base:AddButton(
+		"Remove Selected Action",
+		self:tnc(function(timing)
+			-- Get selected value.
+			local selected = self.actionList.Value
+			if not selected then
+				return Logger.longNotify("Please select an action to remove.")
+			end
+
+			-- Fetch actions.
+			local actions = timing.actions
+
+			-- Find action.
+			local action = actions:find(selected)
+			if not action then
+				return Logger.longNotify("The selected action '%s' does not exist in the list.", selected)
+			end
+
+			-- Remove action.
+			actions:remove(action)
+
+			-- Refresh action list.
+			self:arefresh(timing)
+		end)
+	)
+end
+
+---Initialize timing tab.
+function BuilderSection:timing()
+	local tab = self.tabbox:AddTab("Timings")
+
+	self.timingType = tab:AddDropdown(nil, {
+		Text = "Timing Type",
+		Values = { "Config", "Internal" },
+		Default = 1,
+		Callback = function()
+			-- Refresh timing list.
+			self:refresh()
+
+			-- Reset elements.
+			self:reset()
+		end,
+	})
+
+	self.timingList = tab:AddDropdown(nil, {
+		Text = "Timing List",
+		Values = self.timingType.Value == "Internal" and self.pair.internal:names() or self.pair.config:names(),
+		AllowNull = true,
+		Callback = function(value)
+			-- Reset elements.
+			self:reset()
+
+			-- Check if value exists.
+			if not value then
+				return Logger.warn("No timing value.")
+			end
+
+			-- Fetch timing.
+			local found = self.pair:find(value)
+			if not found then
+				return Logger.longNotify("The selected timing '%s' does not exist in the list.", value)
+			end
+
+			-- Set timing elements.
+			self.timingName:SetRawValue(found.name)
+			self.timingTag:SetRawValue(found.tag)
+			self.initialMaximumDistance:SetRawValue(found.imxd)
+			self.initialMinimumDistance:SetRawValue(found.imdd)
+			self.delayUntilInHitbox:SetRawValue(found.duih)
+			self.timingHitboxLength:SetRawValue(found.hitbox.Z)
+			self.timingHitboxWidth:SetRawValue(found.hitbox.X)
+			self.timingHitboxHeight:SetRawValue(found.hitbox.Y)
+			self.punishableWindow:SetRawValue(found.punishable)
+			self.afterWindow:SetRawValue(found.after)
+			self.useModuleOverActions:SetRawValue(found.umoa)
+			self.skipModuleNotification:SetRawValue(found.smn)
+			self.selectedModule:SetRawValue(found.smod)
+			self.skipRepeatNotification:SetRawValue(found.srpn)
+			self.hitboxFacingOffset:SetRawValue(found.fhb)
+			self.hitboxShiftOffset:SetRawValue(found.hso)
+			self.noDashFallback:SetRawValue(found.ndfb)
+			self.noVentFallback:SetRawValue(found.nvfb)
+			self.blockFallbackHoldTime:SetRawValue(found.bfht)
+			self.noBlockFallback:SetRawValue(found.nbfb)
+			self.repeatParryDelay:SetRawValue(found._rpd)
+			self.repeatStartDelay:SetRawValue(found._rsd)
+			self.repeatUntilParryEnd:SetRawValue(found.rpue)
+
+			-- Load extra elements.
+			self:exload(found)
+
+			-- Refresh action list.
+			self:arefresh(found)
+		end,
+	})
+
+	tab:AddDivider()
+
+	self.timingName = tab:AddInput(nil, {
+		Text = "Timing Name",
+		Finished = true,
+	})
+
+	self:tide(tab)
+
+	local configDepBox = tab:AddDependencyBox()
+
+	configDepBox:AddButton("Create New Timing", function()
+		-- Fetch config.
+		local config = self.pair.config
+
+		-- Check if we can successfully create a timing from the given data.
+		if not self:check() then
+			return
+		end
+
+		-- Create new timing.
+		local timing = self:create()
+
+		-- Push new timing.
+		config:push(timing)
+
+		-- Refresh timing list.
+		self:refresh()
+
+		-- Set timing list value.
+		self.timingList:SetValue(timing.name)
+		self.timingList:Display()
+	end)
+
+	configDepBox:AddButton(
+		"Duplicate Selected Timing",
+		self:tnc(function(found)
+			-- Fetch config.
+			local config = self.pair.config
+
+			-- Check if we can successfully create a timing from the given data.
+			if not self:check() then
+				return
+			end
+
+			-- Clone new timing.
+			local timing = found:clone()
+
+			-- Set creation properties.
+			self:cset(timing)
+
+			-- Push new timing.
+			config:push(timing)
+
+			-- Refresh timing list.
+			self:refresh()
+
+			-- Set timing list value.
+			self.timingList:SetValue(timing.name)
+			self.timingList:Display()
+		end)
+	)
+
+	local internalDepBox = tab:AddDependencyBox()
+
+	internalDepBox:AddButton("Clone To Config", function()
+		-- Fetch name.
+		local name = self.timingList.Value
+		if not name then
+			return Logger.longNotify("Please select a timing to clone.")
+		end
+
+		-- Fetch data.
+		local internal = self.pair.internal
+		local config = self.pair.config
+
+		-- Fetch the currently selected timing.
+		local found = internal:find(name)
+		if not found then
+			return Logger.longNotify("The selected timing '%s' does not exist in the list.", name)
+		end
+
+		-- Check for existing ID.
+		if config.timings[found:id()] then
+			return Logger.longNotify("The timing ID '%s' already exists in the config.", found:id())
+		end
+
+		-- Check for existing timing.
+		if config:find(found.name) then
+			return Logger.longNotify("The timing name '%s' already exists in the config.", found.name)
+		end
+
+		-- Clone timing.
+		---@note: No need to refresh after this. It's in the other timing list!
+		config:push(internal:clone(found))
+	end)
+
+	tab:AddButton("Remove Selected Timing", function()
+		-- Fetch name.
+		local name = self.timingList.Value
+		if not name then
+			return Logger.longNotify("Please select a timing to remove.")
+		end
+
+		-- Fetch data.
+		local internal = self.pair.internal
+		local config = self.pair.config
+		local found = config:find(name)
+
+		-- Check if internal.
+		---@todo: Implement functionality to remove internal timings.
+		if internal:find(name) then
+			return Logger.longNotify("You cannot remove internal timings, only override them.")
+		end
+
+		-- Check if found.
+		if not found then
+			return Logger.longNotify("The selected timing '%s' does not exist in the list.", name)
+		end
+
+		-- Remove timing.
+		config:remove(found)
+
+		-- Refresh timing list.
+		self:refresh()
+	end)
+
+	configDepBox:SetupDependencies({
+		{ self.timingType, "Config" },
+	})
+
+	internalDepBox:SetupDependencies({
+		{ self.timingType, "Internal" },
+	})
+end
+
+---Initialize builder tab.
+function BuilderSection:builder()
+	local tab = self.tabbox:AddTab(string.format("%s", self.name))
+
+	self.timingTag = tab:AddDropdown(nil, {
+		Text = "Timing Tag",
+		Values = { "Undefined", "Critical", "Mantra", "M1" },
+		Default = 1,
+		Callback = self:tnc(function(timing, value)
+			timing.tag = value
+		end),
+	})
+
+	self.initialMinimumDistance = tab:AddSlider(nil, {
+		Text = "Initial Minimum Distance",
+		Min = 0,
+		Max = 300,
+		Suffix = "s",
+		Default = 0,
+		Rounding = 0,
+		Callback = self:tnc(function(timing, value)
+			timing.imdd = value
+		end),
+	})
+
+	self.initialMaximumDistance = tab:AddSlider(nil, {
+		Text = "Initial Maximum Distance",
+		Min = 0,
+		Max = 2500,
+		Suffix = "s",
+		Default = 1000,
+		Rounding = 0,
+		Callback = self:tnc(function(timing, value)
+			timing.imxd = value
+		end),
+	})
+
+	self.punishableWindow = tab:AddSlider(nil, {
+		Text = "Punishable Window",
+		Min = 0,
+		Max = 2,
+		Default = 0.6,
+		Suffix = "s",
+		Rounding = 1,
+		Callback = self:tnc(function(timing, value)
+			timing.punishable = value
+		end),
+	})
+
+	self.afterWindow = tab:AddSlider(nil, {
+		Text = "After Window",
+		Min = 0,
+		Max = 1,
+		Default = 0.1,
+		Suffix = "s",
+		Rounding = 2,
+		Callback = self:tnc(function(timing, value)
+			timing.after = value
+		end),
+	})
+
+	self.blockFallbackHoldTime = tab:AddSlider(nil, {
+		Text = "Block Fallback Hold Time",
+		Min = 0,
+		Max = 5,
+		Suffix = "s",
+		Default = 0.3,
+		Rounding = 2,
+		Callback = self:tnc(function(timing, value)
+			timing.bfht = value
+		end),
+	})
+
+	self.hitboxShiftOffset = tab:AddSlider(nil, {
+		Text = "Hitbox Backwards Offset",
+		Min = -50,
+		Max = 50,
+		Suffix = "s",
+		Default = 0,
+		Rounding = 0,
+		Tooltip = "At the end of everything, how much should the hitbox be shifted forwards / backwards?",
+		Callback = self:tnc(function(timing, value)
+			timing.hso = value
+		end),
+	})
+
+	self.delayUntilInHitbox = tab:AddToggle(nil, {
+		Text = "Delay Until In Hitbox",
+		Default = false,
+		Callback = self:tnc(function(timing, value)
+			timing.duih = value
+		end),
+	})
+
+	local duihDepBox = tab:AddDependencyBox()
+
+	self.timingHitboxLength = duihDepBox:AddSlider(nil, {
+		Text = "Hitbox Length",
+		Min = 0,
+		Max = 300,
+		Suffix = "s",
+		Default = 0,
+		Rounding = 0,
+		Callback = self:tnc(function(timing, value)
+			timing.hitbox = Vector3.new(timing.hitbox.X, timing.hitbox.Y, value)
+		end),
+	})
+
+	self.timingHitboxWidth = duihDepBox:AddSlider(nil, {
+		Text = "Hitbox Width",
+		Min = 0,
+		Max = 300,
+		Suffix = "s",
+		Default = 0,
+		Rounding = 0,
+		Callback = self:tnc(function(timing, value)
+			timing.hitbox = Vector3.new(value, timing.hitbox.Y, timing.hitbox.Z)
+		end),
+	})
+
+	self.timingHitboxHeight = duihDepBox:AddSlider(nil, {
+		Text = "Hitbox Height",
+		Min = 0,
+		Max = 300,
+		Suffix = "s",
+		Default = 0,
+		Rounding = 0,
+		Callback = self:tnc(function(timing, value)
+			timing.hitbox = Vector3.new(timing.hitbox.X, value, timing.hitbox.Z)
+		end),
+	})
+
+	duihDepBox:SetupDependencies({
+		{ self.delayUntilInHitbox, true },
+	})
+
+	self.useModuleOverActions = tab:AddToggle(nil, {
+		Text = "Use Module Over Actions",
+		Default = false,
+		Callback = self:tnc(function(timing, value)
+			timing.umoa = value
+		end),
+	})
+
+	local umoaDepBox = tab:AddDependencyBox()
+
+	self.skipModuleNotification = umoaDepBox:AddToggle(nil, {
+		Text = "Skip Module Notification",
+		Default = false,
+		Callback = self:tnc(function(timing, value)
+			timing.smn = value
+		end),
+	})
+
+	self.selectedModule = umoaDepBox:AddInput(nil, {
+		Text = "Selected Module",
+		Finished = true,
+		Callback = self:tnc(function(timing, value)
+			timing.smod = value
+		end),
+	})
+
+	umoaDepBox:SetupDependencies({
+		{ self.useModuleOverActions, true },
+	})
+
+	self.skipRepeatNotification = tab:AddToggle(nil, {
+		Text = "Skip Repeat Notification",
+		Default = false,
+		Callback = self:tnc(function(timing, value)
+			timing.srpn = value
+		end),
+	})
+
+	self.hitboxFacingOffset = tab:AddToggle(nil, {
+		Text = "Hitbox Facing Offset",
+		Tooltip = "Should the hitbox be offset towards the facing direction?",
+		Default = true,
+		Callback = self:tnc(function(timing, value)
+			timing.fhb = value
+		end),
+	})
+
+	self.noDashFallback = tab:AddToggle(nil, {
+		Text = "No Dash Fallback",
+		Tooltip = "If enabled, the timing will not fallback to a dash if the parry action is not available.",
+		Default = false,
+		Callback = self:tnc(function(timing, value)
+			timing.ndfb = value
+		end),
+	})
+
+	self.noVentFallback = tab:AddToggle(nil, {
+		Text = "No Vent Fallback",
+		Tooltip = "If enabled, the timing will not fallback to a vent.",
+		Default = false,
+		Callback = self:tnc(function(timing, value)
+			timing.nvfb = value
+		end),
+	})
+
+	self.noBlockFallback = tab:AddToggle(nil, {
+		Text = "No Block Fallback",
+		Tooltip = "If enabled, the timing will not fallback to a block.",
+		Default = false,
+		Callback = self:tnc(function(timing, value)
+			timing.nbfb = value
+		end),
+	})
+
+	self:extra(tab)
+end
+
+---Initialize BuilderSection object.
+function BuilderSection:init()
+	self:timing()
+	self:builder()
+	self:action()
+end
+
+---Create new BuilderSection object.
+---@param name string
+---@param tabbox table
+---@param pair TimingContainerPair
+---@param timing Timing
+---@return BuilderSection
+function BuilderSection.new(name, tabbox, pair, timing)
+	local self = setmetatable({}, BuilderSection)
+	self.name = name
+	self.tabbox = tabbox
+	self.pair = pair
+	return self
+end
+
+-- Return BuilderSection module.
+return BuilderSection
+
+end)
+__bundle_register("Menu/Objects/EffectBuilderSection", function(require, _LOADED, __bundle_register, __bundle_modules)
+---@module Menu.Objects.BuilderSection
+local BuilderSection = require("Menu/Objects/BuilderSection")
+
+---@module Utility.Logger
+local Logger = require("Utility/Logger")
+
+---@module Game.Timings.EffectTiming
+local EffectTiming = require("Game/Timings/EffectTiming")
+
+---@class EffectBuilderSection: BuilderSection
+---@field effectName table
+---@field repeatStartDelay table
+---@field repeatUntilParryEnd table
+---@field repeatParryDelay table
+---@field timing EffectTiming
+local EffectBuilderSection = setmetatable({}, { __index = BuilderSection })
+EffectBuilderSection.__index = EffectBuilderSection
+
+---Create timing ID element. Override me.
+---@param tab table
+function EffectBuilderSection:tide(tab)
+	self.effectName = tab:AddInput(nil, {
+		Text = "Effect Name",
+	})
+end
+
+---Load the extra elements. Override me.
+---@param timing Timing
+function EffectBuilderSection:exload(timing)
+	self.effectName:SetRawValue(timing.ename)
+	self.ignoreLocalPlayer:SetRawValue(timing.ilp)
+	self.forceLocalPlayer:SetRawValue(timing.flp)
+end
+
+---Reset the elements. Extend me.
+function EffectBuilderSection:reset()
+	BuilderSection.reset(self)
+	self.effectName:SetRawValue("")
+	self.hitboxFacingOffset:SetRawValue(true)
+	self.ignoreLocalPlayer:SetRawValue(false)
+	self.forceLocalPlayer:SetRawValue(false)
+end
+
+---Check before creating new timing. Override me.
+---@return boolean
+function EffectBuilderSection:check()
+	if not BuilderSection.check(self) then
+		return false
+	end
+
+	if not self.effectName.Value or #self.effectName.Value <= 0 then
+		return Logger.longNotify("Please enter a valid effect name.")
+	end
+
+	if self.pair:index(self.effectName.Value) then
+		return Logger.longNotify("The timing ID '%s' is already in the list.", self.effectName.Value)
+	end
+
+	return true
+end
+
+---Set creation timing properties. Override me.
+---@param timing EffectTiming
+function EffectBuilderSection:cset(timing)
+	timing.name = self.timingName.Value
+	timing.ename = self.effectName.Value
+end
+
+---Create new timing. Override me.
+---@return Timing
+function EffectBuilderSection:create()
+	local timing = EffectTiming.new()
+	self:cset(timing)
+	return timing
+end
+
+---Initialize extra tab.
+---@param tab table
+function EffectBuilderSection:extra(tab)
+	self.ignoreLocalPlayer = tab:AddToggle(nil, {
+		Text = "Ignore Local Player",
+		Default = true,
+		Tooltip = "If enabled, the effect will not react when it is applied to the local player.",
+		Callback = self:tnc(function(timing, value)
+			timing.ilp = value
+		end),
+	})
+
+	self.forceLocalPlayer = tab:AddToggle(nil, {
+		Text = "Force Local Player",
+		Default = false,
+		Tooltip = "If enabled, the effect will always react when it is applied to the local player, even if ignored.",
+		Callback = self:tnc(function(timing, value)
+			timing.flp = value
+		end),
+	})
+end
+
+---Create new EffectBuilderSection object.
+---@param name string
+---@param tabbox table
+---@param pair TimingContainerPair
+---@param timing EffectTiming
+---@return EffectBuilderSection
+function EffectBuilderSection.new(name, tabbox, pair, timing)
+	return setmetatable(BuilderSection.new(name, tabbox, pair, timing), EffectBuilderSection)
+end
+
+-- Return EffectBuilderSection module.
+return EffectBuilderSection
+
+end)
+__bundle_register("Menu/Objects/SoundBuilderSection", function(require, _LOADED, __bundle_register, __bundle_modules)
+---@module Menu.Objects.BuilderSection
+local BuilderSection = require("Menu/Objects/BuilderSection")
+
+---@module Utility.Logger
+local Logger = require("Utility/Logger")
+
+---@module Game.Timings.SoundTiming
+local SoundTiming = require("Game/Timings/SoundTiming")
+
+---@class SoundBuilderSection: BuilderSection
+---@field soundId table
+---@field repeatStartDelay table
+---@field repeatUntilParryEnd table
+---@field repeatParryDelay table
+---@field timing SoundTiming
+---@field allowLocalPlayer table
+local SoundBuilderSection = setmetatable({}, { __index = BuilderSection })
+SoundBuilderSection.__index = SoundBuilderSection
+
+---Create timing ID element. Override me.
+---@param tab table
+function SoundBuilderSection:tide(tab)
+	self.soundId = tab:AddInput(nil, {
+		Text = "Sound ID",
+	})
+end
+
+---Load the extra elements. Override me.
+---@param timing Timing
+function SoundBuilderSection:exload(timing)
+	self.soundId:SetRawValue(timing._id)
+	self.allowLocalPlayer:SetRawValue(timing.alp)
+end
+
+---Reset the elements. Extend me.
+function SoundBuilderSection:reset()
+	BuilderSection.reset(self)
+	self.soundId:SetRawValue("")
+	self.allowLocalPlayer:SetRawValue(false)
+end
+
+---Check before creating new timing. Override me.
+---@return boolean
+function SoundBuilderSection:check()
+	if not BuilderSection.check(self) then
+		return false
+	end
+
+	if not self.soundId.Value or #self.soundId.Value <= 0 then
+		return Logger.longNotify("Please enter a valid sound ID.")
+	end
+
+	if self.pair:index(self.soundId.Value) then
+		return Logger.longNotify("The timing ID '%s' is already in the list.", self.soundId.Value)
+	end
+
+	return true
+end
+
+---Set creation timing properties. Override me.
+---@param timing SoundTiming
+function SoundBuilderSection:cset(timing)
+	timing.name = self.timingName.Value
+	timing._id = self.soundId.Value
+end
+
+---Create new timing. Override me.
+---@return Timing
+function SoundBuilderSection:create()
+	local timing = SoundTiming.new()
+	self:cset(timing)
+	return timing
+end
+
+---Initialize extra tab.
+---@param tab table
+function SoundBuilderSection:extra(tab)
+	self.allowLocalPlayer = tab:AddToggle(nil, {
+		Text = "Allow Local Player",
+		Default = false,
+		Callback = self:tnc(function(timing, value)
+			timing.alp = value
+		end),
+	})
+end
+
+---Create new SoundBuilderSection object.
+---@param name string
+---@param tabbox table
+---@param pair TimingContainerPair
+---@param timing SoundTiming
+---@return SoundBuilderSection
+function SoundBuilderSection.new(name, tabbox, pair, timing)
+	return setmetatable(BuilderSection.new(name, tabbox, pair, timing), SoundBuilderSection)
+end
+
+-- Return SoundBuilderSection module.
+return SoundBuilderSection
+
+end)
+__bundle_register("Menu/Objects/AnimationBuilderSection", function(require, _LOADED, __bundle_register, __bundle_modules)
+---@module Menu.Objects.BuilderSection
+local BuilderSection = require("Menu/Objects/BuilderSection")
+
+---@module Utility.Logger
+local Logger = require("Utility/Logger")
+
+---@module Game.Timings.AnimationTiming
+local AnimationTiming = require("Game/Timings/AnimationTiming")
+
+---@class AnimationBuilderSection: BuilderSection
+---@field animationId table
+---@field repeatStartDelay table
+---@field repeatUntilParryEnd table
+---@field repeatParryDelay table
+---@field timing AnimationTiming
+local AnimationBuilderSection = setmetatable({}, { __index = BuilderSection })
+AnimationBuilderSection.__index = AnimationBuilderSection
+
+---Create timing ID element. Override me.
+---@param tab table
+function AnimationBuilderSection:tide(tab)
+	self.animationId = tab:AddInput(nil, {
+		Text = "Animation ID",
+	})
+end
+
+---Load the extra elements. Override me.
+---@param timing AnimationTiming
+function AnimationBuilderSection:exload(timing)
+	self.animationId:SetRawValue(timing._id)
+	self.hyperarmor:SetRawValue(timing.ha)
+	self.ignoreAnimationEnd:SetRawValue(timing.iae)
+	self.ignoreEarlyAnimationEnd:SetRawValue(timing.ieae)
+	self.maxAnimationTimeout:SetRawValue(timing.mat)
+	self.pastHitboxDetection:SetRawValue(timing.phd)
+	self.predictFacingHitboxes:SetRawValue(timing.pfh)
+	self.historySeconds:SetRawValue(timing.phds)
+	self.extrapolationTime:SetRawValue(timing.pfht)
+end
+
+---Reset the elements. Extend me.
+function AnimationBuilderSection:reset()
+	BuilderSection.reset(self)
+	self.animationId:SetRawValue("")
+	self.hyperarmor:SetRawValue(false)
+	self.hitboxFacingOffset:SetRawValue(true)
+	self.ignoreAnimationEnd:SetRawValue(false)
+	self.ignoreEarlyAnimationEnd:SetRawValue(false)
+	self.maxAnimationTimeout:SetRawValue(2000)
+	self.pastHitboxDetection:SetRawValue(false)
+	self.historySeconds:SetRawValue(0.5)
+	self.predictFacingHitboxes:SetRawValue(false)
+	self.extrapolationTime:SetRawValue(0.15)
+end
+
+---Check before creating new timing. Override me.
+---@return boolean
+function AnimationBuilderSection:check()
+	if not BuilderSection.check(self) then
+		return false
+	end
+
+	if not self.animationId.Value or #self.animationId.Value <= 0 then
+		return Logger.longNotify("Please enter a valid animation ID.")
+	end
+
+	local timing = self.pair:index(self.animationId.Value)
+	if timing then
+		return Logger.longNotify("The timing ID '%s' (%s) is already in the list.", self.animationId.Value, timing.name)
+	end
+
+	return true
+end
+
+---Set creation timing properties. Override me.
+---@param timing AnimationTiming
+function AnimationBuilderSection:cset(timing)
+	timing.name = self.timingName.Value
+	timing._id = self.animationId.Value
+end
+
+---Create new timing. Override me.
+---@return Timing
+function AnimationBuilderSection:create()
+	local timing = AnimationTiming.new()
+	self:cset(timing)
+	return timing
+end
+
+---Initialize extra tab.
+---@param tab table
+function AnimationBuilderSection:extra(tab)
+	self.hyperarmor = tab:AddToggle(nil, {
+		Text = "Hyperarmor Flag",
+		Tooltip = "Is this timing not able to be interrupted by attacks during the animation?",
+		Default = false,
+		Callback = self:tnc(function(timing, value)
+			timing.ha = value
+		end),
+	})
+
+	self.ignoreAnimationEnd = tab:AddToggle(nil, {
+		Text = "Ignore Animation End",
+		Tooltip = "Should the timing ignore the end of the animation?",
+		Default = false,
+		Callback = self:tnc(function(timing, value)
+			timing.iae = value
+		end),
+	})
+
+	local depBoxEnd = tab:AddDependencyBox()
+
+	self.maxAnimationTimeout = depBoxEnd:AddInput(nil, {
+		Text = "Max Animation Timeout",
+		Tooltip = "The maximum time (in milliseconds) that the animation is allowed to run with no end check.",
+		Default = 2000,
+		Numeric = true,
+		Callback = self:tnc(function(timing, value)
+			timing.mat = tonumber(value)
+		end),
+	})
+
+	depBoxEnd:SetupDependencies({
+		{ self.ignoreAnimationEnd, true },
+	})
+
+	self.ignoreEarlyAnimationEnd = tab:AddToggle(nil, {
+		Text = "Ignore Early Animation End",
+		Tooltip = "Should the timing ignore the early end of the animation?",
+		Default = false,
+		Callback = self:tnc(function(timing, value)
+			timing.ieae = value
+		end),
+	})
+
+	self.pastHitboxDetection = tab:AddToggle(nil, {
+		Text = "Past Hitbox Detection",
+		Default = false,
+		Tooltip = "Should the hitbox detection track the past hitboxes too?",
+		Callback = self:tnc(function(timing, value)
+			timing.phd = value
+		end),
+	})
+
+	local pfdOffDepBox = tab:AddDependencyBox()
+
+	self.historySeconds = pfdOffDepBox:AddSlider(nil, {
+		Text = "History Seconds",
+		Tooltip = "How far back in seconds should we fetch history?",
+		Default = 0.5,
+		Min = 0,
+		Max = 3.0,
+		Rounding = 2,
+		Numeric = true,
+		Callback = self:tnc(function(timing, value)
+			timing.phds = tonumber(value) or 0
+		end),
+	})
+
+	pfdOffDepBox:SetupDependencies({
+		{ self.pastHitboxDetection, true },
+	})
+
+	self.predictFacingHitboxes = tab:AddToggle(nil, {
+		Text = "Predict Facing Hitboxes",
+		Default = false,
+		Tooltip = "Should we make a prediction on the facing direction and make a hitbox on that?",
+		Callback = self:tnc(function(timing, value)
+			timing.pfh = value
+		end),
+	})
+
+	self.disablePrediction = tab:AddToggle(nil, {
+		Text = "Disable Prediction",
+		Default = false,
+		Tooltip = "Should we disable prediction?",
+		Callback = self:tnc(function(timing, value)
+			timing.dp = value
+		end),
+	})
+
+	self.extrapolationTime = tab:AddSlider(nil, {
+		Text = "Extrapolation Time",
+		Tooltip = "The time (in seconds) to extrapolate by.",
+		Default = 0.15,
+		Min = 0,
+		Max = 2.0,
+		Rounding = 3,
+		Numeric = true,
+		Callback = self:tnc(function(timing, value)
+			timing.pfht = tonumber(value)
+		end),
+	})
+end
+
+---Create new AnimationBuilderSection object.
+---@param name string
+---@param tabbox table
+---@param pair TimingContainerPair
+---@param timing AnimationTiming
+---@return AnimationBuilderSection
+function AnimationBuilderSection.new(name, tabbox, pair, timing)
+	return setmetatable(BuilderSection.new(name, tabbox, pair, timing), AnimationBuilderSection)
+end
+
+-- Return AnimationBuilderSection module.
+return AnimationBuilderSection
+
+end)
 __bundle_register("Menu/AutomationTab", function(require, _LOADED, __bundle_register, __bundle_modules)
 -- AutomationTab module.
 local AutomationTab = {}
@@ -76579,7 +78810,7 @@ function CombatTab.initAutoDefenseSection(groupbox)
 	})
 
 	autoDefenseDepBox:AddToggle("UseIFrames", {
-		Text = "Use Invisibility Frames",
+		Text = "Use Invincibility Frames",
 		Default = false,
 		Tooltip = "If enabled, the auto defense will ignore parry, block and dodge action if there's already an existing invincibility frame.",
 	})
